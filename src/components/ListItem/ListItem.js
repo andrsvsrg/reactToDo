@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 
 import iconCross from '../../icon/cross.svg'
-import {ReactComponent as Done} from '../../icon/done.svg'
+import { ReactComponent as Done } from '../../icon/done.svg'
 import iconEdit from '../../icon/edit.svg'
 import save from '../../icon/save.svg'
 
@@ -47,30 +47,42 @@ const ListItem = ({ todo, setToDo }) => {
     setEdit(null);
   }
 
+  function updatePosition(data, index) {
+    let newArr = [...todo];
+    newArr[index].defaultPos = { x: data.x, y: data.y }
+    setToDo(newArr)
+  }
+
 
 
 
   return (
-    <div>
+    <div className='draggable_fild'>
       { todo.map((item, index) => (
 
         <Draggable
+          offsetParent={document.querySelector('.draggable_fild')}
           key={ item.id }
-          position={null}
-          // defaultPosition= {}
-          positionOffset={item.defaultPos}
+          position={ null }
+          defaultPosition={ item.defaultPos }
+          onStop={ (e, data) => {
+            updatePosition(data, index)
+          } }
+
         >
-          <div className="list_item" style={{backgroundColor: item.color}}>
+          <div className="list_item" style={ { backgroundColor: item.color } }>
             {
               edit === item.id ?
                 <div>
                   { index + 1 }.
-                  <input  className="list_item-input-change"
+                  <input className="list_item-input-change"
                          onChange={ (e) => setValue((e.target.value)) }
                          value={ value }
+
                   />
                 </div> :
-                <div className={ item.status ? 'list_item-title-nochange' : 'list_item-title-nochange item_done'}>{ index + 1 }. { item.title }</div>
+                <div
+                  className={ item.status ? 'list_item-title-nochange' : 'list_item-title-nochange item_done' }>{ index + 1 }. { item.title }</div>
             }
             {
 
@@ -90,7 +102,7 @@ const ListItem = ({ todo, setToDo }) => {
                     <img src={ iconEdit } alt="close" width={ '15px' } height={ '15px' }/>
                   </button>
                   <button className="listitem_btn" onClick={ () => statusToDo(item.id) }>
-                    <Done className='done_svg' width='15px' height='15px' />
+                    <Done className="done_svg" width="15px" height="15px"/>
                   </button>
                 </div>
 

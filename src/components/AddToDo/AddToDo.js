@@ -24,6 +24,14 @@ const AddToDo = ({ todo, setToDo }) => {
     }
   }
 
+  function keyPressAddItem(e) {
+    const code = e.keyCode || e.which
+    if (code === 13) {
+      saveToDo()
+    }
+
+  }
+
  function defaultPos() {
     const width = document.documentElement.clientWidth;
     const height = document.documentElement.clientHeight;
@@ -35,7 +43,13 @@ const AddToDo = ({ todo, setToDo }) => {
 
   return (
     <div className='addtodo_div' >
-      <input  className='addtodo_input' value={value} onChange={(e) => setValue(e.target.value)} placeholder='What to do?' type="text"/>
+      <input  className='addtodo_input'
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              placeholder='What to do?'
+              type="text"
+              onKeyPress={ (e) => keyPressAddItem(e) }
+      />
       <button className='addtodo_button' onClick={saveToDo}>Add a task</button>
     </div>
   );
