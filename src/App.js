@@ -11,7 +11,8 @@ import './App.css'
 function App() {
 
   const [todo,setToDo] = useState(
-    JSON.parse(localStorage.getItem('items')) || []
+    JSON.parse(localStorage.getItem('items')) || {}
+
   )
 
   useEffect(() => {
@@ -28,14 +29,14 @@ function App() {
     <div className="app">
       <Header />
       <AddToDo selectedDay={selectedDay}
-               setSelectedDay={setSelectedDay}
                todo={todo}
                setToDo={setToDo}/>
-      <ListItem todo={todo} setToDo={setToDo}/>
+      <ListItem selectedDay={selectedDay}
+                todo={todo}
+                setToDo={setToDo}/>
       <Calendar selectedDay={selectedDay}
                 setSelectedDay={setSelectedDay}
-                todo={todo}
-                setToDo={setToDo} />
+                todo={todo}/>
     </div>
   );
 }

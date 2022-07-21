@@ -10,25 +10,27 @@ import save from '../../icon/save.svg'
 import './listitemstyle.css'
 
 
-const ListItem = ({ todo, setToDo }) => {
+const ListItem = ({ todo, setToDo , setSelectedDay, selectedDay}) => {
 
   const [edit, setEdit] = useState(null)
   const [value, setValue] = useState('')
-
+  selectedDay = selectedDay.format('DDMMYYYY')
 
   function deleteToDo(id) {
-    const newArr = [...todo].filter((obj) => obj.id !== id)
-    setToDo(newArr);
+    const todoCopy = JSON.parse(JSON.stringify(todo))
+    todoCopy[selectedDay] = [...todo[selectedDay]].filter((obj) => obj.id !== id)
+    setToDo(todoCopy);
   }
 
   function statusToDo(id) {
-    const newArr = [...todo].filter((obj) => {
+    const todoCopy = JSON.parse(JSON.stringify(todo))
+    todoCopy[selectedDay] = [...todo[selectedDay]].filter((obj) => {
       if (obj.id === id) {
         obj.status = !obj.status
       }
       return obj;
     })
-    setToDo(newArr)
+    setToDo(todoCopy)
   }
 
   function editToDo(id, title) {
@@ -37,20 +39,21 @@ const ListItem = ({ todo, setToDo }) => {
   }
 
   function saveToDo(id) {
-    let newToDo = [...todo].map((item) => {
+    const todoCopy = JSON.parse(JSON.stringify(todo))
+    todoCopy[selectedDay] = [...todo[selectedDay]].map((item) => {
       if (item.id === id) {
         item.title = value
       }
       return item;
     })
-    setToDo(newToDo);
+    setToDo(todoCopy);
     setEdit(null);
   }
 
   function updatePosition(data, index) {
-    let newArr = [...todo];
-    newArr[index].defaultPos = { x: data.x, y: data.y }
-    setToDo(newArr)
+    const todoCopy = JSON.parse(JSON.stringify(todo))
+    todoCopy[selectedDay][index].defaultPos = { x: data.x, y: data.y }
+    setToDo(todoCopy)
   }
 
 
@@ -58,7 +61,9 @@ const ListItem = ({ todo, setToDo }) => {
 
   return (
     <div className='draggable_fild'>
-      { todo.map((item, index) => (
+
+      { todo[selectedDay] ?
+        todo[selectedDay].map((item, index) => (
 
         <Draggable
           offsetParent={document.querySelector('.draggable_fild')}
@@ -112,7 +117,12 @@ const ListItem = ({ todo, setToDo }) => {
 
           </div>
         </Draggable>
-      )) }
+      ))
+      :
+        <div style={{textAlign: 'center'}}>
+          Tasks not found
+        </div>
+      }
     </div>
 
   );

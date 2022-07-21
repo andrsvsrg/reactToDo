@@ -94,9 +94,7 @@
 
 
 .today {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
   width: 15px;
   height: 15px;
   background-color: #EF4631;
@@ -113,4 +111,11 @@ border: 1px solid cornflowerblue;
 
 .notThisMonthColor {
   color: #53565D;
+}
+
+.haveTaskForThisDay {
+  background-color: blueviolet;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
 }

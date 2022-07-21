@@ -11,15 +11,30 @@ const AddToDo = ({ todo, setToDo, selectedDay }) => {
 
 
   function saveToDo() {
-
+    const selectDayStr = selectedDay.format('DDMMYYYY')
     if (value.trim()) {
-      setToDo([...todo, {
-        id        : uuid(),
-        title     : value,
-        status    : true,
-        defaultPos: defaultPos(),
-        color     : randomColor({ luminosity: 'light' })
-      }])
+      if(todo[selectDayStr]) {
+        const todoCopy = JSON.parse(JSON.stringify(todo))
+        todoCopy[selectDayStr].push({
+          id: uuid(),
+          title: value,
+          status: true,
+          defaultPos: defaultPos(),
+          color: randomColor({ luminosity: 'light' })
+        });
+        setToDo(todoCopy);
+      } else {
+        const todoCopy = JSON.parse(JSON.stringify(todo))
+        todoCopy[selectDayStr] = [{
+          id: uuid(),
+          title: value,
+          status: true,
+          defaultPos: defaultPos(),
+          color: randomColor({ luminosity: 'light' })
+        }]
+        setToDo(todoCopy);
+      }
+
 
       setValue('')
     }
@@ -37,7 +52,7 @@ const AddToDo = ({ todo, setToDo, selectedDay }) => {
     const width = document.documentElement.clientWidth;
     const height = document.documentElement.clientHeight;
     const defaultWidth = Math.floor(Math.random() * (width < 300 ? width : width - 300)) + 1
-    const defaultHeight = Math.floor(Math.random() * (height < 555 ? height : height - 555)) + 1;
+    const defaultHeight = Math.floor(Math.random() * (height < 565 ? height : height - 565)) + 1;
     return { x: defaultWidth, y: defaultHeight };
   }
 

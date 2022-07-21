@@ -52,11 +52,29 @@ const Calendar = ({ todo, setToDo, setSelectedDay, selectedDay }) => {
     setCurrentWindowCalendar(setValuesCurrWindow(moment().year(),moment().month()))
   }
 
+  function nextMonthBtn() {
+    if(selectMonthValue === 11) {
+      setSelectMonthValue(0)
+      setSelectYearValue(selectYearValue+1)
+    } else {
+      setSelectMonthValue(selectMonthValue+1)
+    }
+  }
+  function prevMonthBtn() {
+    if(selectMonthValue === 0) {
+      setSelectMonthValue(11)
+      setSelectYearValue(selectYearValue-1)
+    } else {
+      setSelectMonthValue(selectMonthValue - 1)
+    }
+
+  }
+
 
   return (
     <div className="calendar">
       <div className="select_date">
-        <button className="calendar_btn"> { '<' } </button>  {/* BUTTON PREV MONTH */ }
+        <button onClick={prevMonthBtn} className="calendar_btn"> { '<' } </button>  {/* BUTTON PREV MONTH */ }
         <select value={selectMonthValue} onChange={(e) => changeMonthSelect(e)} className="calendar_select calendar_select_month">  {/* SELECT MONTH */ }
           {
             defaultValues.monthsNames.map((month, index) => {
@@ -78,7 +96,7 @@ const Calendar = ({ todo, setToDo, setSelectedDay, selectedDay }) => {
           }
         </select>
 
-        <button className="calendar_btn"> { '>' } </button> {/* BUTTON NEXT MONTH */ }
+        <button onClick={nextMonthBtn} className="calendar_btn"> { '>' } </button> {/* BUTTON NEXT MONTH */ }
 
       </div>
 
@@ -111,6 +129,7 @@ const Calendar = ({ todo, setToDo, setSelectedDay, selectedDay }) => {
                 if(!(dateItem.month() === selectMonthValue)) {
                   classesDate += ' notThisMonthColor'
                 }
+
                 return classesDate;
               }
 
@@ -119,8 +138,10 @@ const Calendar = ({ todo, setToDo, setSelectedDay, selectedDay }) => {
 
               return <div onClick={()=>{setSelectedDay(dateItem)}} className={ dayItemClasses } key={ dateItem.format('DDMMYYYY') }>
                 <div className={dataClasses}>
-                  { dateItem.format('D') }
+                    { dateItem.format('D') }
+
                 </div>
+                <div className={todo[dateItem.format('DDMMYYYY')] ? 'haveTaskForThisDay' : ''}></div>
 
               </div>
             })
