@@ -9,7 +9,7 @@
 }
 
 .calendar_btn {
-  padding: .25em .75em;
+  padding: 5px 10px;
   text-align: center;
   color:white;
   font-size: 20px;
@@ -29,12 +29,17 @@
 .calendar_select option {
   background-color: #2e2f36;
 }
-.calendar_select_month {
-  width: 150px;
+
+.calendar_select_year, .calendar_select_month {
+  width: 140px;
+  text-align: start;
+  padding-left: 12px;
 }
-.calendar_select_year {
-  width: 100px;
+.today_btn {
+  border-bottom: 1px solid gray;
+  border-radius: 10px;
 }
+
 
 .calendar_select:focus, .calendar_btn:focus{
   outline: none;
@@ -51,14 +56,14 @@
 }
 
 .calendar_table_dates {
-  width: 98%;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(7,1fr);
   grid-template-rows: repeat(6,1fr) ;
-  margin-bottom:15px;
   background-color: #404040;
   grid-gap: 1px;
   border: 1px solid #404040;
+  margin: auto;
 }
 
 
@@ -78,6 +83,8 @@
   justify-items: end;
   display: grid;
   grid-template-columns: repeat(7,1fr);
+  margin: auto;
+  width: 100%;
 }
 
 .dayOfWeek_Item {
@@ -102,4 +109,8 @@ border: 1px solid cornflowerblue;
 
 .weekend {
   background-color: #2e2f36;
+}
+
+.notThisMonthColor {
+  color: #53565D;
 }

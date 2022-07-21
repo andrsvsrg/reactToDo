@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 
 import './calendar.css'
 
@@ -37,27 +37,27 @@ const Calendar = ({ todo, setToDo }) => {
 
   function changeMonthSelect(e) {
     setSelectMonthValue(Number(e.target.value))
-    setCurrentWindowCalendar(setValuesCurrWindow(selectYearValue, selectMonthValue));
   }
 
   function changeYearSelect(e) {
     setSelectYearValue(Number(e.target.value))
-    setCurrentWindowCalendar(setValuesCurrWindow(selectYearValue, selectMonthValue));
+  }
+
+  useEffect(() => {
+    setCurrentWindowCalendar(setValuesCurrWindow(selectYearValue, selectMonthValue))
+  }, [selectMonthValue, selectYearValue])
+
+  function todayClickButton() {
+    setSelectMonthValue(moment().month())
+    setSelectYearValue(moment().year())
+    setCurrentWindowCalendar(setValuesCurrWindow(moment().year(),moment().month()))
   }
 
 
   return (
     <div className="calendar">
-      <div style={{textAlign: 'center'}}>
-        <p>{'current month: '  + selectMonthValue }</p>
-        <p>{'current year: '  + selectYearValue }</p>
-        {console.log(currentWindowCalendar)}
-      </div>
-
       <div className="select_date">
-
         <button className="calendar_btn"> { '<' } </button>  {/* BUTTON PREV MONTH */ }
-
         <select value={selectMonthValue} onChange={(e) => changeMonthSelect(e)} className="calendar_select calendar_select_month">  {/* SELECT MONTH */ }
           {
             defaultValues.monthsNames.map((month, index) => {
@@ -65,6 +65,9 @@ const Calendar = ({ todo, setToDo }) => {
             })
           }
         </select>
+
+        <button className="calendar_btn today_btn"
+                onClick={todayClickButton}>Today</button>
 
         <select value={selectYearValue}
                 onChange={(e) => changeYearSelect(e)}
@@ -91,7 +94,7 @@ const Calendar = ({ todo, setToDo }) => {
         <div className="calendar_table_dates">  {/* DAYS OF MONTH, 42 DAYS */ }
           {
             currentWindowCalendar.map((dateItem) => {
-              function AddClassDay(item) {
+              function addClassDay(item) {
                 let classes;
                 if (item.day() === 6 || item.day() === 0) {
                   classes = 'weekend'
@@ -100,10 +103,18 @@ const Calendar = ({ todo, setToDo }) => {
                 }
                 return classes;
               }
+              function addClassDate(dateItem) {
+                let classesDate =  dateItem.isSame(today, 'day') ? 'today' : '';
+                if(!(dateItem.month() === selectMonthValue)) {
+                  classesDate += ' notThisMonthColor'
+                }
+                return classesDate;
+              }
 
-              const dataItemClasses = 'dataItem ' + AddClassDay(dateItem)
-              return <div className={ dataItemClasses } key={ dateItem.format('DDMMYYYY') }>
-                <div className={ dateItem.isSame(today, 'day') ? 'today' : '' }>
+              const dayItemClasses = 'dataItem ' + addClassDay(dateItem)
+              const dataClasses =  addClassDate(dateItem)
+              return <div className={ dayItemClasses } key={ dateItem.format('DDMMYYYY') }>
+                <div className={dataClasses}>
                   { dateItem.format('D') }
                 </div>
 
