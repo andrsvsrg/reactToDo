@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import Calendar from './components/Calendar/Calendar'
 import AddToDo from './components/AddToDo/AddToDo'
 import Header from './components/Header/Header'
 import ListItem from './components/ListItem/ListItem'
@@ -12,6 +13,7 @@ function App() {
     JSON.parse(localStorage.getItem('items')) || []
   )
 
+
   useEffect(() => {
     localStorage.setItem('items',JSON.stringify(todo))
   }, [todo])
@@ -22,6 +24,7 @@ function App() {
       <Header />
       <AddToDo todo={todo} setToDo={setToDo}/>
       <ListItem todo={todo} setToDo={setToDo}/>
+      <Calendar todo={todo} setToDo={setToDo} />
     </div>
   );
 }

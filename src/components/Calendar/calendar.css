@@ -1,0 +1,105 @@
+.calendar {
+
+}
+.select_date {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+
+}
+
+.calendar_btn {
+  padding: .25em .75em;
+  text-align: center;
+  color:white;
+  font-size: 20px;
+  border:none;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.calendar_select {
+  text-align: center;
+  color:white;
+  font-size: 20px;
+  border:none;
+  background-color: inherit;
+  cursor: pointer;
+}
+.calendar_select option {
+  background-color: #2e2f36;
+}
+.calendar_select_month {
+  width: 150px;
+}
+.calendar_select_year {
+  width: 100px;
+}
+
+.calendar_select:focus, .calendar_btn:focus{
+  outline: none;
+}
+
+.calendar_table {
+  display: flex;
+  flex-direction:column;
+  width: 65%;
+  margin: auto;
+
+
+
+}
+
+.calendar_table_dates {
+  width: 98%;
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  grid-template-rows: repeat(6,1fr) ;
+  margin-bottom:15px;
+  background-color: #404040;
+  grid-gap: 1px;
+  border: 1px solid #404040;
+}
+
+
+.dataItem {
+  justify-items: end;
+  display: grid;
+  padding: 3px;
+  color:white;
+  background-color: #282B30;
+  min-width: 40px;
+  min-height: 50px;
+  font-size: 10px;
+
+}
+
+.daysOfWeek {
+  justify-items: end;
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+}
+
+.dayOfWeek_Item {
+  min-width: 40px;
+
+}
+
+
+.today {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15px;
+  height: 15px;
+  background-color: #EF4631;
+  border-radius: 50%;
+}
+
+.selectedDay{
+border: 1px solid cornflowerblue;
+}
+
+.weekend {
+  background-color: #2e2f36;
+}
