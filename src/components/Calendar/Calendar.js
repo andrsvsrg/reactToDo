@@ -3,7 +3,7 @@ import React, { useState , useEffect } from 'react';
 
 import './calendar.css'
 
-const Calendar = ({ todo, setToDo }) => {
+const Calendar = ({ todo, setToDo, setSelectedDay, selectedDay }) => {
 
   moment.updateLocale('en', { week: { dow: 1 } });
 
@@ -15,7 +15,6 @@ const Calendar = ({ todo, setToDo }) => {
   const today = moment();
 
   function setValuesCurrWindow(year, month, day = 1) {
-
     const selectedDay = moment().set({ 'year': year, 'month': month, 'date': day })
     const startDay = selectedDay.clone().startOf('month').startOf('week')
     let currDay = startDay.subtract(1, 'day').clone();
@@ -101,6 +100,10 @@ const Calendar = ({ todo, setToDo }) => {
                 } else {
                   classes = ''
                 }
+                if(dateItem.isSame(selectedDay, 'day')) {
+                  classes = 'selectedDay'
+                }
+
                 return classes;
               }
               function addClassDate(dateItem) {
@@ -113,7 +116,8 @@ const Calendar = ({ todo, setToDo }) => {
 
               const dayItemClasses = 'dataItem ' + addClassDay(dateItem)
               const dataClasses =  addClassDate(dateItem)
-              return <div className={ dayItemClasses } key={ dateItem.format('DDMMYYYY') }>
+
+              return <div onClick={()=>{setSelectedDay(dateItem)}} className={ dayItemClasses } key={ dateItem.format('DDMMYYYY') }>
                 <div className={dataClasses}>
                   { dateItem.format('D') }
                 </div>

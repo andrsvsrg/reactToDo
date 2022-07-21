@@ -23,3 +23,7 @@ display: flex;
   padding: 7px 12px;
   margin-left: 10px;
 }
+.addtodo_selected-date {
+  text-align: center;
+  font-size: 20px;
+}

@@ -76,7 +76,7 @@
   min-width: 40px;
   min-height: 50px;
   font-size: 10px;
-
+  cursor: pointer;
 }
 
 .daysOfWeek {

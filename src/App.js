@@ -18,17 +18,8 @@ function App() {
     localStorage.setItem('items',JSON.stringify(todo))
   }, [todo])
 
-  const [currentWindowCalendar, setCurrentWindowCalendar] = useState(setValuesCurrWindow(moment().year(),moment().month()))
+  const [selectedDay, setSelectedDay] = useState(moment())
 
-  function setValuesCurrWindow(year, month, day = 1) {
-
-    const selectedDay = moment().set({ 'year': year, 'month': month, 'date': day })
-    const startDay = selectedDay.clone().startOf('month').startOf('week')
-    let currDay = startDay.subtract(1, 'day').clone();
-    const resultArrAllDays = [...Array(42)].map(() => currDay.add(1, 'day').clone());
-
-    return resultArrAllDays;
-  }
 
 
 
@@ -36,9 +27,15 @@ function App() {
   return (
     <div className="app">
       <Header />
-      <AddToDo todo={todo} setToDo={setToDo}/>
+      <AddToDo selectedDay={selectedDay}
+               setSelectedDay={setSelectedDay}
+               todo={todo}
+               setToDo={setToDo}/>
       <ListItem todo={todo} setToDo={setToDo}/>
-      <Calendar todo={todo} setToDo={setToDo} />
+      <Calendar selectedDay={selectedDay}
+                setSelectedDay={setSelectedDay}
+                todo={todo}
+                setToDo={setToDo} />
     </div>
   );
 }
