@@ -141,7 +141,9 @@ const Calendar = ({ todo, setToDo, setSelectedDay, selectedDay }) => {
                     { dateItem.format('D') }
 
                 </div>
-                <div className={todo[dateItem.format('DDMMYYYY')] ? 'haveTaskForThisDay' : ''}></div>
+                {/*{console.log(typeof todo[dateItem.format('DDMMYYYY')])}*/}
+                {/*{console.log(typeof todo[dateItem.format('DDMMYYYY')] === 'object' ? todo[dateItem.format('DDMMYYYY')].length ? 'haveTaskForThisDay' :  '' :  '' )}*/}
+                <div className={typeof todo[dateItem.format('DDMMYYYY')] === 'object' ? todo[dateItem.format('DDMMYYYY')].length ? 'haveTaskForThisDay' :  '' :  '' }></div>
 
               </div>
             })
