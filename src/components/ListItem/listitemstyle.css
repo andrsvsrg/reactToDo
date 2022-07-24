@@ -1,0 +1,41 @@
+.list_item {
+  display: flex;
+  position: absolute;
+  width: 300px;
+  min-height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  color:black;
+  font-weight: bold;
+  padding:5px;
+  border-radius: 10px;
+  cursor: move;
+  margin: auto;
+
+}
+.listitem_btn {
+  background-color: inherit;
+  border:none;
+  cursor: pointer;
+
+}
+
+.list_item-input-change {
+  margin-left: 3px;
+  background-color: inherit;
+  border:none;
+  border-bottom: 1px solid black;
+  font-weight: bold;
+  color:black;
+  outline:none;
+  font-size:16px;
+  font-family: 'Montserrat', sans-serif;
+}
+.list_item-title-nochange {
+  font-size:16px;
+}
+
+.item_done {
+  text-decoration: line-through;
+}
+
