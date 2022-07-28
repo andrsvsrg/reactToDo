@@ -1,42 +1,32 @@
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import "./App.css";
 
-import Calendar from './components/Calendar/Calendar'
-import AddToDo from './components/AddToDo/AddToDo'
-import Header from './components/Header/Header'
-import ListItem from './components/ListItem/ListItem'
+import moment from "moment";
+import React, { useEffect, useState } from 'react';
 
-import './App.css'
+import Calendar from "./components/Calendar/Calendar";
+import AddToDo from "./components/AddToDo/AddToDo";
+import Header from "./components/Header/Header";
+import ListItem from "./components/ListItem/ListItem";
 
 function App() {
-
-  const [todo,setToDo] = useState(
-    JSON.parse(localStorage.getItem('items')) || {}
-
-  )
+  const [todo, setToDo] = useState(() => JSON.parse(localStorage.getItem('items')) || {});
 
   useEffect(() => {
-    localStorage.setItem('items',JSON.stringify(todo))
-  }, [todo])
+    localStorage.setItem("items", JSON.stringify(todo));
+  }, [todo]);
 
-  const [selectedDay, setSelectedDay] = useState(moment())
-
-
-
-
+  const [selectedDay, setSelectedDay] = useState(() => moment());
 
   return (
     <div className="app">
       <Header />
-      <AddToDo selectedDay={selectedDay}
-               todo={todo}
-               setToDo={setToDo}/>
-      <ListItem selectedDay={selectedDay}
-                todo={todo}
-                setToDo={setToDo}/>
-      <Calendar selectedDay={selectedDay}
-                setSelectedDay={setSelectedDay}
-                todo={todo}/>
+      <AddToDo selectedDay={selectedDay} todo={todo} setToDo={setToDo} />
+      <ListItem selectedDay={selectedDay} todo={todo} setToDo={setToDo} />
+      <Calendar
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        todo={todo}
+      />
     </div>
   );
 }
