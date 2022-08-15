@@ -1,4 +1,4 @@
-.add-todo_block {
+.add-todo-block {
   display: flex;
   justify-content: center;
 }
@@ -10,11 +10,6 @@
 }
 
 .add-todo-input {
-  background-color: inherit;
-  border: none;
-  border-bottom: 1px solid white;
-  color: white;
-  outline: none;
   font-size: 16px;
 }
 
@@ -24,9 +19,6 @@
 
 .add-todo-button {
   border: 1px solid white;
-  background-color: inherit;
-  color: white;
-  padding: 7px 12px;
   margin-left: 10px;
 }
 

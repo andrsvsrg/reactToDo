@@ -1,196 +1,60 @@
-import "./calendar.css";
+import './calendar.css';
 
-import moment from "moment";
-import React, { useState, useEffect } from "react";
+import moment from 'moment';
+import React, { useState, useEffect } from 'react';
 
-const Calendar = ({ todo, setToDo, setSelectedDay, selectedDay }) => {
+import CalendarNavigation from './CalendarNavigation/CalendarNavigation';
+import CalendarTable from './CalendarTable/CalendarTable';
+
+const Calendar = ({ todo, setSelectedDay, selectedDay }) => {
 
   useEffect(() => {
-    moment.updateLocale("en", { week: { dow: 1 } });
-  }, [])
-
-  const [currentWindowCalendar, setCurrentWindowCalendar] = useState(
-    () => setValuesCurrWindow(moment().year(), moment().month())
-  );
+    moment.updateLocale('en', { week: { dow: 1 } });
+  }, []);
 
   const [selectMonthValue, setSelectMonthValue] = useState(moment().month());
   const [selectYearValue, setSelectYearValue] = useState(moment().year());
 
-  const today = moment();
+  const [currentWindowCalendar, setCurrentWindowCalendar] = useState(
+    () => createValuesCurrWindow(moment().year(), moment().month())
+  );
 
-  function setValuesCurrWindow(year, month, day = 1) {
+  function createValuesCurrWindow(year, month, day = 1) {
     const selectedDay = moment().set({ year: year, month: month, date: day });
-    const startDay = selectedDay.clone().startOf("month").startOf("week");
-    const currDay = startDay.subtract(1, "day").clone();
+    const startDay = selectedDay.clone().startOf('month').startOf('week');
+    const currDay = startDay.subtract(1, 'day').clone();
     const resultArrAllDays = [...Array(42)].map(() =>
-      currDay.add(1, "day").clone()
+      currDay.add(1, 'day').clone()
     );
 
     return resultArrAllDays;
   }
 
-  const defaultValues = {
-    years: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
-    monthsNames: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
-    weekDayNames: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  };
-
-  function changeMonthSelect(e) {
-    setSelectMonthValue(Number(e.target.value));
-  }
-
-  function changeYearSelect(e) {
-    setSelectYearValue(Number(e.target.value));
-  }
-
   useEffect(() => {
     setCurrentWindowCalendar(
-      setValuesCurrWindow(selectYearValue, selectMonthValue)
+      createValuesCurrWindow(selectYearValue, selectMonthValue)
     );
   }, [selectMonthValue, selectYearValue]);
 
-  function onTodayClick() {
-    setSelectMonthValue(moment().month());
-    setSelectYearValue(moment().year());
-    setCurrentWindowCalendar(
-      setValuesCurrWindow(moment().year(), moment().month())
-    );
-  }
-
-  function onNextMonthClick() {
-    if (selectMonthValue === 11) {
-      setSelectMonthValue(0);
-      setSelectYearValue(selectYearValue + 1);
-    } else {
-      setSelectMonthValue(selectMonthValue + 1);
-    }
-  }
-  function prevMonthBtn() {
-    if (selectMonthValue === 0) {
-      setSelectMonthValue(11);
-      setSelectYearValue(selectYearValue - 1);
-    } else {
-      setSelectMonthValue(selectMonthValue - 1);
-    }
-  }
-
   return (
     <div className="calendar">
-      <div className="select_date">
-        <button onClick={prevMonthBtn} className="calendar_btn">
-          {"<"}
-        </button>
-        {/* BUTTON PREV MONTH */}
-        <select
-          value={selectMonthValue}
-          onChange={(e) => changeMonthSelect(e)}
-          className="calendar_select calendar_select_month"
-        >
-          {/* SELECT MONTH */}
-          {defaultValues.monthsNames.map((month, index) => {
-            return (
-              <option key={index} value={index}>
-                {month}
-              </option>
-            );
-          })}
-        </select>
-        <button className="calendar_btn today_btn" onClick={onTodayClick}>
-          Today
-        </button>
-        <select
-          value={selectYearValue}
-          onChange={(e) => changeYearSelect(e)}
-          className="calendar_select calendar_select_year"
-        >
-          {/* SELECT YEARS */}
-          {defaultValues.years.map((year, index) => {
-            return (
-              <option key={index} value={year}>
-                {year}
-              </option>
-            );
-          })}
-        </select>
-        <button onClick={onNextMonthClick} className="calendar_btn">
-          {">"}
-        </button>
-        {/* BUTTON NEXT MONTH */}
-      </div>
+        <CalendarNavigation
+          setSelectYearValue={setSelectYearValue}
+          setSelectMonthValue={setSelectMonthValue}
+          setSelectedDay={setSelectedDay}
+          setCurrentWindowCalendar={setCurrentWindowCalendar}
+          createValuesCurrWindow={createValuesCurrWindow}
+          selectMonthValue={selectMonthValue}
+          selectYearValue={selectYearValue}     // Знаю что подобные пропсы плохо выглядит, еще сяду править.
+        />
+      <CalendarTable
+        currentWindowCalendar={currentWindowCalendar}
+        selectedDay={selectedDay}
+        selectMonthValue={selectMonthValue}
+        setSelectedDay={setSelectedDay}
+        todo={todo}
+      />
 
-      <div className="calendar_table">
-        <div className="daysOfWeek">
-          {/* DAYS OF WEEK (MN,FR,SUN) */}
-          {defaultValues.weekDayNames.map((dayOfWeek, index) => {
-            return (
-              <div className="dayOfWeek_Item" key={index}>
-                {dayOfWeek}
-              </div>
-            );
-          })}
-        </div>
-        <div className="calendar_table_dates">
-          {/* DAYS OF MONTH, 42 DAYS */}
-          {currentWindowCalendar.map((dateItem) => {
-
-
-            function addClassDay(item) {
-              let classes;
-              if (item.day() === 6 || item.day() === 0) {
-                classes = "weekend";
-              } else {
-                classes = "";
-              }
-              if (dateItem.isSame(selectedDay, "day")) {
-                classes = "selectedDay";
-              }
-
-              return classes;
-            }
-            function addClassDate(dateItem) {
-              let classesDate = dateItem.isSame(today, "day") ? "today" : "";
-              if (!(dateItem.month() === selectMonthValue)) {
-                classesDate += " notThisMonthColor";
-              }
-
-              return classesDate;
-            }
-            console.log()
-            const dayItemClasses = "dataItem " + addClassDay(dateItem);
-            const dataClasses = addClassDate(dateItem);
-
-            return (
-              <div
-                onClick={() => {
-                  setSelectedDay(dateItem);
-                }}
-                className={dayItemClasses}
-                key={dateItem.format("DDMMYYYY")}
-              >
-                <div className={dataClasses}>{dateItem.format("D")}</div>
-                <div
-                  className={
-                      todo[dateItem.format("DDMMYYYY")]?.length ? "haveTaskForThisDay" : ""
-                  }
-                ></div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
     </div>
   );
 };

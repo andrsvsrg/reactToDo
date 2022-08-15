@@ -1,71 +1,78 @@
-import "./addToDo.css";
+import './addToDo.css';
 
-import { randomColor } from "randomcolor";
+import { randomColor } from 'randomcolor';
 import React, { useMemo, useState } from 'react';
 
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from 'uuid';
+import MyButton from '../UI/button/MyButton';
+import MyInput from '../UI/input/MyInput';
 
 const AddToDo = ({ todo, setToDo, selectedDay }) => {
 
-  const [value, setValue] = useState("");
-  const selectDayStr = useMemo(() => selectedDay.format("DDMMYYYY") , [selectedDay]) ;
-  const selectedDayTitle =  useMemo(() => selectedDay.format("DD.MM.YYYY") , [selectedDay]) ;
+  const [inputValue, setInputValue] = useState('');
+  const selectDayStr = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay]);
+  const selectedDayTitle = useMemo(() => selectedDay.format('DD.MM.YYYY'), [selectedDay]);
 
-  function saveToDo() {
-
-    if (value.trim()) {
-      const todoCopy = JSON.parse(JSON.stringify(todo));
-      todoCopy[selectDayStr] = todoCopy[selectDayStr] || []
-      todoCopy[selectDayStr].push({
-        id: uuid(),
-        title: value.trim(),
-        isCompleted: false,
-        defaultPos: defaultPos(),
-        color: randomColor({ luminosity: "light" }),
-      })
-      setToDo(todoCopy);
+  function AddTask() {
+    if (!inputValue.trim()) {
+      setInputValue('');
+      return;
     }
-    setValue("");
+
+    const todoCopy = JSON.parse(JSON.stringify(todo));
+    todoCopy[selectDayStr] = todoCopy[selectDayStr] || [];
+    todoCopy[selectDayStr].push({
+      id         : uuid(),
+      title      : inputValue.trim(),
+      isCompleted: false,
+      defaultPos : getRandomDefaultTaskPosition(),
+      color      : randomColor({ luminosity: 'light' })
+    });
+    setToDo(todoCopy);
+    setInputValue('');
   }
 
-  function onKeyPressAddItem(e) {
-    const code = e.charCode ;
+  function onKeyPressAddTask(e) {
+    const code = e.charCode;
     const ENTER_CODE = 13;
     if (code === ENTER_CODE) {
-      saveToDo();
+      AddTask();
     }
-  }
-
-  function defaultPos() {
-    const width = document.documentElement.clientWidth;
-    const height = document.documentElement.clientHeight;
-    const defaultWidth =
-      Math.floor(Math.random() * (width < 300 ? width : width - 300)) + 1;
-    const defaultHeight =
-      Math.floor(Math.random() * (height < 565 ? height : height - 565)) + 1;
-    return { x: defaultWidth, y: defaultHeight };
   }
 
   return (
     <div className="add-task-container">
-      <div className="add-todo_block">
-        <input
+      <div className="add-todo-block">
+        <MyInput
           className="add-todo-input"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={ inputValue }
+          onChange={ (e) => setInputValue(e.target.value) }
           placeholder="What to do?"
           type="text"
-          onKeyPress={onKeyPressAddItem}
+          onKeyPress={ onKeyPressAddTask }
         />
-        <button className="add-todo-button" onClick={saveToDo}>
+        <MyButton className="add-todo-button" onClick={ AddTask }>
           Add a task
-        </button>
+        </MyButton>
       </div>
       <p className="add-todo-selected-date">
-        {selectedDayTitle}
+        { selectedDayTitle }
       </p>
     </div>
   );
 };
 
 export default AddToDo;
+
+function getRandomDefaultTaskPosition() {
+  const width = document.documentElement.clientWidth;
+  const height = document.documentElement.clientHeight;
+  const WIDTH_HEADER = 300; // 300px - fix width header
+  const WIDTH_CALENDAR = 580; // 580px - fix width footer
+  const defaultWidth =
+    Math.floor(Math.random() * (width < WIDTH_HEADER ? width : width - WIDTH_HEADER));
+  const defaultHeight =
+    Math.floor(Math.random() * (height < WIDTH_CALENDAR ? height : height - WIDTH_CALENDAR));
+
+  return { x: defaultWidth, y: defaultHeight };
+}
