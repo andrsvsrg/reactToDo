@@ -7,37 +7,29 @@ import { v4 as uuid } from 'uuid';
 import MyButton from '../UI/button/MyButton';
 import MyInput from '../UI/input/MyInput';
 
-const AddToDo = ({ todo, setToDo, selectedDay }) => {
+const AddToDo = ({addTask, selectedDay}) => {
 
   const [inputValue, setInputValue] = useState('');
-  const selectDayStr = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay]);
+  const selectedDayTasksId = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay]);
   const selectedDayTitle = useMemo(() => selectedDay.format('DD.MM.YYYY'), [selectedDay]);
 
-  function AddTask() {
-    if (!inputValue.trim()) {
-      setInputValue('');
-      return;
-    }
-
-    const todoCopy = JSON.parse(JSON.stringify(todo));
-    todoCopy[selectDayStr] = todoCopy[selectDayStr] || [];
-    todoCopy[selectDayStr].push({
-      id         : uuid(),
-      title      : inputValue.trim(),
-      isCompleted: false,
-      defaultPos : getRandomDefaultTaskPosition(),
-      color      : randomColor({ luminosity: 'light' })
-    });
-    setToDo(todoCopy);
-    setInputValue('');
-  }
 
   function onKeyPressAddTask(e) {
     const code = e.charCode;
     const ENTER_CODE = 13;
     if (code === ENTER_CODE) {
-      AddTask();
+      addTask(createNewTask(inputValue));
     }
+  }
+
+  function checkAndAddTask() {
+    if (!inputValue.trim()) {
+      setInputValue('');
+      return;
+    }
+    const newTask = createNewTask(inputValue)
+    addTask(newTask, selectedDayTasksId)
+    setInputValue('');
   }
 
   return (
@@ -51,7 +43,7 @@ const AddToDo = ({ todo, setToDo, selectedDay }) => {
           type="text"
           onKeyPress={ onKeyPressAddTask }
         />
-        <MyButton className="add-todo-button" onClick={ AddTask }>
+        <MyButton className="add-todo-button" onClick={ checkAndAddTask }>
           Add a task
         </MyButton>
       </div>
@@ -75,4 +67,14 @@ function getRandomDefaultTaskPosition() {
     Math.floor(Math.random() * (height < WIDTH_CALENDAR ? height : height - WIDTH_CALENDAR));
 
   return { x: defaultWidth, y: defaultHeight };
+}
+
+function createNewTask(titleOfNewTask) {
+  return {
+    id         : uuid(),
+    title      : titleOfNewTask.trim(),
+    isCompleted: false,
+    defaultPos : getRandomDefaultTaskPosition(),
+    color      : randomColor({ luminosity: 'light' })
+  }
 }

@@ -5,15 +5,9 @@ import React, { useMemo } from 'react';
 import Draggable from 'react-draggable';
 import ToDoItem from './ToDoItem/ToDoItem';
 
-const ToDoList = ({ todo, setToDo, selectedDay }) => {
+const ToDoList = ({ todo, selectedDay, deleteTask, completedTask, updateTaskPosition, changeTaskTitle }) => {
 
   const selectDayStr = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay]);
-
-  function updateTaskPosition(data, index) {
-    const todoCopy = JSON.parse(JSON.stringify(todo));
-    todoCopy[selectDayStr][index].defaultPos = { x: data.x, y: data.y };
-    setToDo(todoCopy);
-  }
 
   return (
     <div className="draggable-fild">
@@ -25,11 +19,13 @@ const ToDoList = ({ todo, setToDo, selectedDay }) => {
             position={ null }
             defaultPosition={ item.defaultPos }
             onStop={ (e, data) => {
-              updateTaskPosition(data, index);
+              updateTaskPosition(data, index, selectDayStr);
             } }
           >
             <div className="draggable-element">
-              <ToDoItem selectDayStr={ selectDayStr } selectedDay={ selectedDay } todo={ todo } setToDo={ setToDo }
+              <ToDoItem changeTaskTitle={ changeTaskTitle } completedTask={ completedTask }
+                        deleteTask={ deleteTask }
+                        selectDayStr={ selectDayStr } selectedDay={ selectedDay }
                         item={ item } index={ index } />
             </div>
           </Draggable>

@@ -1,19 +1,16 @@
-import './calendarNavigation.css'
+import './calendarNavigation.css';
 
 import React from 'react';
+import moment from 'moment';
 
 import MyButton from '../../UI/button/MyButton';
 import MySelect from '../../UI/select/MySelect';
 
-import moment from 'moment';
-
-
 const CalendarNavigation = ({
-      setSelectMonthValue, setSelectYearValue, setSelectedDay,
-      setCurrentWindowCalendar, createValuesCurrWindow, selectMonthValue,
-      selectYearValue,
-      }) => {
-
+                              setSelectMonthValue, setSelectYearValue, setSelectedDay,
+                              setCurrentWindowCalendar, createValuesCurrWindow, selectMonthValue,
+                              selectYearValue
+                            }) => {
 
   function onMonthSelectChange(e) {
     setSelectMonthValue(Number(e.target.value));
@@ -60,7 +57,7 @@ const CalendarNavigation = ({
         value={ selectMonthValue }
         onChange={ onMonthSelectChange }
         className="calendar-select calendar-select-month"
-        optionsObj = {defaultValuesForSelect.monthsNames}
+        optionsObj={ defaultValuesForSelect.monthsNames }
       />
 
       <MyButton className="calendar-button today-button" onClick={ onTodayClick }>
@@ -71,7 +68,7 @@ const CalendarNavigation = ({
         value={ selectYearValue }
         onChange={ onYearSelectChange }
         className="calendar-select calendar-select-year"
-        optionsObj = {defaultValuesForSelect.years}
+        optionsObj={ defaultValuesForSelect.years }
       />
 
       <MyButton onClick={ onNextMonthClick } className="calendar-button">
@@ -84,10 +81,8 @@ const CalendarNavigation = ({
 export default CalendarNavigation;
 
 
-
-
 const defaultValuesForSelect = {
-  years       : {
+  years      : {
     2016: 2016,
     2017: 2017,
     2018: 2018,
@@ -100,17 +95,17 @@ const defaultValuesForSelect = {
     2025: 2025,
     2026: 2026
   },
-  monthsNames : {
-    0: 'January',
-    1: 'February',
-    2: 'March',
-    3: 'April',
-    4: 'May',
-    5: 'June',
-    6: 'July',
-    7: 'August',
-    8: 'September',
-    9: 'October',
+  monthsNames: {
+    0 : 'January',
+    1 : 'February',
+    2 : 'March',
+    3 : 'April',
+    4 : 'May',
+    5 : 'June',
+    6 : 'July',
+    7 : 'August',
+    8 : 'September',
+    9 : 'October',
     10: 'November',
     11: 'December'
   }

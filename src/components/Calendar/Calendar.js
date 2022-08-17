@@ -38,23 +38,22 @@ const Calendar = ({ todo, setSelectedDay, selectedDay }) => {
 
   return (
     <div className="calendar">
-        <CalendarNavigation
-          setSelectYearValue={setSelectYearValue}
-          setSelectMonthValue={setSelectMonthValue}
-          setSelectedDay={setSelectedDay}
-          setCurrentWindowCalendar={setCurrentWindowCalendar}
-          createValuesCurrWindow={createValuesCurrWindow}
-          selectMonthValue={selectMonthValue}
-          selectYearValue={selectYearValue}     // Знаю что подобные пропсы плохо выглядит, еще сяду править.
-        />
-      <CalendarTable
-        currentWindowCalendar={currentWindowCalendar}
-        selectedDay={selectedDay}
-        selectMonthValue={selectMonthValue}
-        setSelectedDay={setSelectedDay}
-        todo={todo}
+      <CalendarNavigation
+        setSelectYearValue={ setSelectYearValue }
+        setSelectMonthValue={ setSelectMonthValue }
+        setSelectedDay={ setSelectedDay }
+        setCurrentWindowCalendar={ setCurrentWindowCalendar }
+        createValuesCurrWindow={ createValuesCurrWindow }
+        selectMonthValue={ selectMonthValue }
+        selectYearValue={ selectYearValue }
       />
-
+      <CalendarTable
+        currentWindowCalendar={ currentWindowCalendar }
+        selectedDay={ selectedDay }
+        selectMonthValue={ selectMonthValue }
+        setSelectedDay={ setSelectedDay }
+        todo={ todo }
+      />
     </div>
   );
 };

@@ -1,9 +1,9 @@
-import './calendarTable.css'
+import './calendarTable.css';
 
 import React from 'react';
 import moment from 'moment';
 
-const CalendarTable = ({currentWindowCalendar, selectedDay, selectMonthValue, setSelectedDay, todo}) => {
+const CalendarTable = ({ currentWindowCalendar, selectedDay, selectMonthValue, setSelectedDay, todo }) => {
 
   function addClassForAllDays(item) {
     let classes;
@@ -48,7 +48,7 @@ const CalendarTable = ({currentWindowCalendar, selectedDay, selectMonthValue, se
                 onClick={ () => {
                   setSelectedDay(dateItem);
                 } }
-                className={'dataItem ' + addClassForAllDays(dateItem) }
+                className={ 'dataItem ' + addClassForAllDays(dateItem) }
                 key={ dateItem.format('DDMMYYYY') }
               >
                 <div className={ addClassForCurrentMonth(dateItem) }>{ dateItem.format('D') }</div>
@@ -69,6 +69,5 @@ const CalendarTable = ({currentWindowCalendar, selectedDay, selectMonthValue, se
 export default CalendarTable;
 
 
-
-const weekDayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const weekDayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
