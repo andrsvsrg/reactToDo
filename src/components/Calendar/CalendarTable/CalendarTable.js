@@ -10,29 +10,6 @@ const CalendarTable = React.memo(function CalendarTable({
   setSelectedDay,
   todo,
 }) {
-  function addClassForAllDays(item) {
-    let classes;
-    if (item.day() === 6 || item.day() === 0) {
-      classes = "weekend";
-    } else {
-      classes = "";
-    }
-    if (item.isSame(selectedDay, "day")) {
-      classes = "selectedDay";
-    }
-
-    return classes;
-  }
-
-  function addClassForCurrentMonth(dateItem) {
-    let classesDate = dateItem.isSame(moment(), "day") ? "today" : "";
-    if (!(dateItem.month() === selectMonthValue)) {
-      classesDate += " notThisMonthColor";
-    }
-
-    return classesDate;
-  }
-
   return (
     <>
       <div className="calendar-table">
@@ -52,10 +29,17 @@ const CalendarTable = React.memo(function CalendarTable({
                 onClick={() => {
                   setSelectedDay(dateItem);
                 }}
-                className={"dataItem " + addClassForAllDays(dateItem)}
+                className={
+                  "dataItem " + addClassForAllDays(dateItem, selectedDay)
+                }
                 key={dateItem.format("DDMMYYYY")}
               >
-                <div className={addClassForCurrentMonth(dateItem)}>
+                <div
+                  className={addClassForCurrentMonth(
+                    dateItem,
+                    selectMonthValue
+                  )}
+                >
                   {dateItem.format("D")}
                 </div>
                 <div
@@ -77,3 +61,26 @@ const CalendarTable = React.memo(function CalendarTable({
 export default CalendarTable;
 
 const weekDayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+function addClassForAllDays(item, selectedDay) {
+  let classes;
+  if (item.day() === 6 || item.day() === 0) {
+    classes = "weekend";
+  } else {
+    classes = "";
+  }
+  if (item.isSame(selectedDay, "day")) {
+    classes = "selectedDay";
+  }
+
+  return classes;
+}
+
+function addClassForCurrentMonth(dateItem, selectMonthValue) {
+  let classesDate = dateItem.isSame(moment(), "day") ? "today" : "";
+  if (!(dateItem.month() === selectMonthValue)) {
+    classesDate += " notThisMonthColor";
+  }
+
+  return classesDate;
+}
