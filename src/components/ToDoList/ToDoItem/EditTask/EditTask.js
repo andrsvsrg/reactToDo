@@ -3,11 +3,11 @@ import MyInput from '../../../UI/input/MyInput';
 import MyButton from '../../../UI/button/MyButton';
 import save from '../../../../icon/save.svg';
 
-const EditTask = ({value, item, index, selectDayStr, setEditingId, onInputChange, changeTaskTitle }) => {
+const EditTask = React.memo(function EditTask({value, item, index, setEditingId, onInputChange, changeTaskTitle }) {
 
 
-  function saveToDo(item, value, selectDayStr) {
-    changeTaskTitle(item, value, selectDayStr)
+  function saveToDo(item, value) {
+    changeTaskTitle(item, value)
     setEditingId(null);
   }
 
@@ -27,7 +27,7 @@ const EditTask = ({value, item, index, selectDayStr, setEditingId, onInputChange
       </div>
       <MyButton
         className="list-item-button"
-        onClick={ () => saveToDo(item, value, selectDayStr) }
+        onClick={ () => saveToDo(item, value) }
       >
         <img
           src={ save }
@@ -38,6 +38,6 @@ const EditTask = ({value, item, index, selectDayStr, setEditingId, onInputChange
       </MyButton>
     </div>
   );
-};
+})
 
 export default EditTask;

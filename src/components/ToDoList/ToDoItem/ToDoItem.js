@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import EditTask from './EditTask/EditTask';
 import ShowTask from './ShowTask/ShowTask';
 
-const ToDoItem = ({ item, index, selectDayStr, deleteTask, completedTask, changeTaskTitle }) => {
+const ToDoItem = React.memo(function ToDoItem({ item, index, deleteTask, completedTask, changeTaskTitle }) {
 
   const [editingId, setEditingId] = useState(null);
   const [titleChangeInput, setTitleChangeInput] = useState('');
@@ -26,17 +26,16 @@ const ToDoItem = ({ item, index, selectDayStr, deleteTask, completedTask, change
                   onInputChange={ handlerTitleChange }
                   setEditingId={ setEditingId }
                   item={ item }
-                  index={ index } selectDayStr={ selectDayStr } />
+                  index={ index } />
       ) : (
         <ShowTask completedTask={ completedTask }
                   deleteTask={ deleteTask }
                   item={ item }
                   editToDo={ editToDo }
-                  index={ index }
-                  selectDayStr={ selectDayStr } />
+                  index={ index } />
       ) }
     </div>
   );
-};
+})
 
 export default ToDoItem;

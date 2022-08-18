@@ -5,7 +5,7 @@ import iconCross from '../../../../icon/cross.svg';
 import iconEdit from '../../../../icon/edit.svg';
 import { ReactComponent as Done } from '../../../../icon/done.svg';
 
-const ShowTask = ({ item, index, selectDayStr, editToDo, deleteTask, completedTask }) => {
+const ShowTask = React.memo(function ShowTask({ item, index, editToDo, deleteTask, completedTask }) {
 
   return (
     <div className="list-item" style={ { backgroundColor: item.color } }>
@@ -21,7 +21,7 @@ const ShowTask = ({ item, index, selectDayStr, editToDo, deleteTask, completedTa
       <div>
         <MyButton
           className="list-item-button"
-          onClick={() => deleteTask(item,selectDayStr) }
+          onClick={() => deleteTask(item) }
         >
           <img
             src={ iconCross }
@@ -43,13 +43,13 @@ const ShowTask = ({ item, index, selectDayStr, editToDo, deleteTask, completedTa
         </MyButton>
         <MyButton
           className="list-item-button"
-          onClick={ () => completedTask(item, selectDayStr ) }
+          onClick={ () => completedTask(item) }
         >
           <Done width="15px" height="15px" />
         </MyButton>
       </div>
     </div>
   );
-};
+})
 
 export default ShowTask;
