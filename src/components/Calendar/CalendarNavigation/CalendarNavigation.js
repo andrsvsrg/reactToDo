@@ -1,12 +1,12 @@
-import "./calendarNavigation.css";
+import './calendarNavigation.css'
 
-import React from "react";
-import moment from "moment";
+import React from 'react'
+import moment from 'moment'
 
-import MyButton from "../../UI/button/MyButton";
-import MySelect from "../../UI/select/MySelect";
+import { Button } from '../../UI/my-button/index'
+import { Select } from '../../UI/my-select/index'
 
-const CalendarNavigation = React.memo(function CalendarNavigation({
+function CalendarNavigation({
   setSelectMonthValue,
   setSelectYearValue,
   setSelectedDay,
@@ -16,72 +16,70 @@ const CalendarNavigation = React.memo(function CalendarNavigation({
   selectYearValue,
 }) {
   function onMonthSelectChange(e) {
-    setSelectMonthValue(Number(e.target.value));
+    setSelectMonthValue(Number(e.target.value))
   }
 
   function onYearSelectChange(e) {
-    setSelectYearValue(Number(e.target.value));
+    setSelectYearValue(Number(e.target.value))
   }
 
   function onTodayClick() {
-    setSelectMonthValue(moment().month());
-    setSelectYearValue(moment().year());
-    setSelectedDay(moment());
-    setCurrentWindowCalendar(
-      createValuesCurrWindow(moment().year(), moment().month())
-    );
+    setSelectMonthValue(moment().month())
+    setSelectYearValue(moment().year())
+    setSelectedDay(moment())
+    setCurrentWindowCalendar(createValuesCurrWindow(moment().year(), moment().month()))
   }
 
   function onNextMonthClick() {
     if (selectMonthValue === 11) {
-      setSelectMonthValue(0);
-      setSelectYearValue(selectYearValue + 1);
+      setSelectMonthValue(0)
+      setSelectYearValue(selectYearValue + 1)
     } else {
-      setSelectMonthValue(selectMonthValue + 1);
+      setSelectMonthValue(selectMonthValue + 1)
     }
   }
 
   function onPreviousMonthClick() {
     if (selectMonthValue === 0) {
-      setSelectMonthValue(11);
-      setSelectYearValue(selectYearValue - 1);
+      setSelectMonthValue(11)
+      setSelectYearValue(selectYearValue - 1)
     } else {
-      setSelectMonthValue(selectMonthValue - 1);
+      setSelectMonthValue(selectMonthValue - 1)
     }
   }
 
   return (
     <div className="calendar-navigation">
-      <MyButton onClick={onPreviousMonthClick} className="calendar-button">
-        {"<"}
-      </MyButton>
+      <Button onClick={onPreviousMonthClick} className="calendar-button">
+        {'<'}
+      </Button>
 
-      <MySelect
+      <Select
         value={selectMonthValue}
         onChange={onMonthSelectChange}
         className="calendar-select calendar-select-month"
         optionsObj={defaultValuesForSelect.monthsNames}
       />
 
-      <MyButton className="calendar-button today-button" onClick={onTodayClick}>
+      <Button className="calendar-button today-button" onClick={onTodayClick}>
         Today
-      </MyButton>
+      </Button>
 
-      <MySelect
+      <Select
         value={selectYearValue}
         onChange={onYearSelectChange}
         className="calendar-select calendar-select-year"
         optionsObj={defaultValuesForSelect.years}
       />
 
-      <MyButton onClick={onNextMonthClick} className="calendar-button">
-        {">"}
-      </MyButton>
+      <Button onClick={onNextMonthClick} className="calendar-button">
+        {'>'}
+      </Button>
     </div>
-  );
-});
+  )
+}
 
-export default CalendarNavigation;
+export default React.memo(CalendarNavigation)
 
 const defaultValuesForSelect = {
   years: {
@@ -98,17 +96,18 @@ const defaultValuesForSelect = {
     2026: 2026,
   },
   monthsNames: {
-    0: "January",
-    1: "February",
-    2: "March",
-    3: "April",
-    4: "May",
-    5: "June",
-    6: "July",
-    7: "August",
-    8: "September",
-    9: "October",
-    10: "November",
-    11: "December",
+    /// moment()._locale._months
+    0: 'January',
+    1: 'February',
+    2: 'March',
+    3: 'April',
+    4: 'May',
+    5: 'June',
+    6: 'July',
+    7: 'August',
+    8: 'September',
+    9: 'October',
+    10: 'November',
+    11: 'December',
   },
-};
+}

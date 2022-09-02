@@ -1,52 +1,30 @@
-import "./ToDolist.css";
+import './ToDolist.css'
 
-import React, { useMemo } from "react";
+import React from 'react'
 
-import Draggable from "react-draggable";
-import ToDoItem from "./ToDoItem/ToDoItem";
+import ToDoItem from './ToDoItem/ToDoItem'
 
-const ToDoList = React.memo(function ToDoList({
-  todo,
-  selectedDay,
-  deleteTask,
-  completedTask,
-  updateTaskPosition,
-  changeTaskTitle,
-}) {
-  const selectedDayTasksId = useMemo(
-    () => selectedDay.format("DDMMYYYY"),
-    [selectedDay]
-  );
-
+function ToDoList({ todo, selectedDay, deleteTask, completedTask, changeTaskTitle, selectedDayTasksKey, updateTask }) {
   return (
     <div className="draggable-fild">
-      {todo[selectedDayTasksId]?.length ? (
-        todo[selectedDayTasksId].map((item, index) => (
-          <Draggable
+      {todo[selectedDayTasksKey]?.length ? (
+        todo[selectedDayTasksKey].map((item, index) => (
+          <ToDoItem
+            updateTask={updateTask}
             key={item.id}
-            position={null}
-            defaultPosition={item.defaultPos}
-            onStop={(e, data) => {
-              updateTaskPosition(data, index);
-            }}
-          >
-            <div className="draggable-element">
-              <ToDoItem
-                changeTaskTitle={changeTaskTitle}
-                completedTask={completedTask}
-                deleteTask={deleteTask}
-                selectedDay={selectedDay}
-                item={item}
-                index={index}
-              />
-            </div>
-          </Draggable>
+            changeTaskTitle={changeTaskTitle}
+            completedTask={completedTask}
+            deleteTask={deleteTask}
+            selectedDay={selectedDay}
+            item={item}
+            index={index}
+          />
         ))
       ) : (
         <div className="header-taskNotFound">Tasks not found</div>
       )}
     </div>
-  );
-});
+  )
+}
 
-export default ToDoList;
+export default React.memo(ToDoList)

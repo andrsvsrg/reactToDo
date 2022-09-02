@@ -1,106 +1,77 @@
-import "./App.css";
+import './App.css'
 
-import moment from "moment";
-import React, { useEffect, useState, useMemo } from "react";
+import moment from 'moment'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 
-import Calendar from "./components/Calendar/Calendar";
-import AddToDo from "./components/AddToDo/AddToDo";
-import Header from "./components/Header/Header";
-import ToDoList from "./components/ToDoList/ToDoList";
+import Calendar from './components/Calendar/Calendar'
+import AddToDo from './components/AddToDo/AddToDo'
+import Header from './components/Header/Header'
+import ToDoList from './components/ToDoList/ToDoList'
 
 function App() {
-  const [todo, setToDo] = useState(
-    () => JSON.parse(localStorage.getItem("items")) || {}
-  );
-  const [selectedDay, setSelectedDay] = useState(() => moment());
-  const selectedDayTasksId = useMemo(
-    () => selectedDay.format("DDMMYYYY"),
-    [selectedDay]
-  );
+  const [todo, setToDo] = useState(() => JSON.parse(localStorage.getItem('items')) || {})
+  const [selectedDay, setSelectedDay] = useState(() => moment())
+  const selectedDayTasksKey = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay])
 
   useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(todo));
-  }, [todo]);
+    localStorage.setItem('items', JSON.stringify(todo))
+  }, [todo])
 
-  function addSelectedDayTask(newTask) {
-    if (!todo[selectedDayTasksId]) {
-      todo[selectedDayTasksId] = [];
-    }
-    const copySelectDayTasks = [...todo[selectedDayTasksId]];
-    copySelectDayTasks.push(newTask);
-    setToDo({ ...todo, [selectedDayTasksId]: copySelectDayTasks });
-  }
+  const addTask = useCallback(
+    (newTask) => {
+      const selectedDayTasks = todo[selectedDayTasksKey]
+      const newDayTask = selectedDayTasks ? [...selectedDayTasks, newTask] : [newTask]
+      setToDo({ ...todo, [selectedDayTasksKey]: newDayTask })
+    },
+    [todo, selectedDayTasksKey],
+  )
 
-  function deleteTaskFromSelectedDay(task) {
-    const copySelectDayToDo = todo[selectedDayTasksId].filter((element) => {
-      return element.id !== task.id;
-    });
-    setToDo({ ...todo, [selectedDayTasksId]: copySelectDayToDo });
-  }
+  const deleteTaskFromSelectedDay = useCallback(
+    (task) => {
+      const newSelectDayToDo = todo[selectedDayTasksKey].filter(({ id }) => {
+        return id !== task.id
+      })
+      setToDo({ ...todo, [selectedDayTasksKey]: newSelectDayToDo })
+    },
+    [todo, selectedDayTasksKey],
+  )
 
-  function completedTask(task) {
-    const copySelectDayToDo = todo[selectedDayTasksId].map((element) => {
-      if (element.id === task.id) {
-        element.isCompleted = !element.isCompleted;
-        return element;
-      }
-      return element;
-    });
-    setToDo({ ...todo, [selectedDayTasksId]: copySelectDayToDo });
-  }
+  const updateTask = useCallback(
+    (taskId, changes) => {
+      const newSelectedDayToDo = todo[selectedDayTasksKey].map((task) => {
+        if (task.id !== taskId) {
+          return task
+        }
+        return { ...task, ...changes }
+      })
 
-  function updateTaskPosition(data, index) {
-    const copySelectDayToDo = todo[selectedDayTasksId].map((element, i) => {
-      if (index === i) {
-        element.defaultPos = { x: data.x, y: data.y };
-        return element;
-      }
-      return element;
-    });
-    setToDo({ ...todo, [selectedDayTasksId]: copySelectDayToDo });
-  }
+      setToDo({ ...todo, [selectedDayTasksKey]: newSelectedDayToDo })
+    },
+    [todo, selectedDayTasksKey],
+  )
 
-  function changeTaskTitle(task, newTitle) {
-    const copySelectDayToDo = todo[selectedDayTasksId].map((element) => {
-      if (element.id === task.id) {
-        element.title = newTitle;
-        return element;
-      }
-      return element;
-    });
-    setToDo({ ...todo, [selectedDayTasksId]: copySelectDayToDo });
-  }
+  const deleteSelectedDayAllTasks = useCallback(() => {
+    setToDo({ ...todo, [selectedDayTasksKey]: [] })
+  }, [todo, selectedDayTasksKey])
 
-  function deleteSelectedDayAllTasks() {
-    setToDo({ ...todo, [selectedDayTasksId]: [] });
-  }
-
-  function deleteAllTasks() {
-    setToDo({});
-  }
+  const deleteAllTasks = useCallback(() => {
+    setToDo({})
+  }, [])
 
   return (
     <div className="app">
-      <Header
-        deleteSelectedDayAllTasks={deleteSelectedDayAllTasks}
-        deleteAllTasks={deleteAllTasks}
-      />
-      <AddToDo selectedDay={selectedDay} addTask={addSelectedDayTask} />
+      <Header deleteSelectedDayAllTasks={deleteSelectedDayAllTasks} deleteAllTasks={deleteAllTasks} />
+      <AddToDo selectedDay={selectedDay} addTask={addTask} />
       <ToDoList
-        changeTaskTitle={changeTaskTitle}
-        updateTaskPosition={updateTaskPosition}
-        completedTask={completedTask}
+        updateTask={updateTask}
         selectedDay={selectedDay}
         todo={todo}
         deleteTask={deleteTaskFromSelectedDay}
+        selectedDayTasksKey={selectedDayTasksKey}
       />
-      <Calendar
-        selectedDay={selectedDay}
-        setSelectedDay={setSelectedDay}
-        todo={todo}
-      />
+      <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} todo={todo} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default React.memo(App)

@@ -1,72 +1,64 @@
-import "./addToDo.css";
+import './addToDo.css'
 
-import { randomColor } from "randomcolor";
-import React, { useMemo, useState } from "react";
+import { randomColor } from 'randomcolor'
+import React, { useMemo, useState } from 'react'
 
-import { v4 as uuid } from "uuid";
-import MyButton from "../UI/button/MyButton";
-import MyInput from "../UI/input/MyInput";
+import { v4 as uuid } from 'uuid'
+import { Button } from '../UI/my-button/index'
+import { Input } from '../UI/my-input/index'
 
-const AddToDo = React.memo(function AddToDo({ addTask, selectedDay }) {
-  const [inputValue, setInputValue] = useState("");
-  const selectedDayTitle = useMemo(
-    () => selectedDay.format("DD.MM.YYYY"),
-    [selectedDay]
-  );
+import { fixSize, keyCode } from '../../constants'
 
-  function onKeyPressAddTask(e) {
-    const code = e.charCode;
-    const ENTER_CODE = 13;
-    if (code === ENTER_CODE) {
-      checkAndAddTask();
+const AddToDo = ({ addTask, selectedDay }) => {
+  const [inputValue, setInputValue] = useState('')
+  const selectedDayTitle = useMemo(() => selectedDay.format('DD.MM.YYYY'),[selectedDay])
+
+  function onAddTask(e) {
+    const code = e.charCode
+    if (code === keyCode.ENTER) {
+      addNewTask()
     }
   }
 
-  function checkAndAddTask() {
-    if (!inputValue.trim()) {
-      setInputValue("");
-      return;
-    }
-    const newTask = createNewTask(inputValue);
-    addTask(newTask);
-    setInputValue("");
+  function addNewTask() {
+    const newTask = createNewTask(inputValue)
+    addTask(newTask)
+    setInputValue('')
   }
+
+  const isDisabledButton = !inputValue.trim()
 
   return (
     <div className="add-task-container">
       <div className="add-todo-block">
-        <MyInput
+        <Input
           className="add-todo-input"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="What to do?"
           type="text"
-          onKeyPress={onKeyPressAddTask}
+          onKeyPress={onAddTask}
         />
-        <MyButton className="add-todo-button" onClick={checkAndAddTask}>
+        <Button disabled={isDisabledButton} className="add-todo-button" onClick={addNewTask}>
           Add a task
-        </MyButton>
+        </Button>
       </div>
       <span className="add-todo-selected-date">{selectedDayTitle}</span>
     </div>
-  );
-});
+  )
+}
 
-export default AddToDo;
+export default React.memo(AddToDo)
 
 function getRandomDefaultTaskPosition() {
-  const width = document.documentElement.clientWidth;
-  const height = document.documentElement.clientHeight;
-  const WIDTH_HEADER = 300; // 300px - fix width header
-  const WIDTH_CALENDAR = 580; // 580px - fix width footer
-  const defaultWidth = Math.floor(
-    Math.random() * (width < WIDTH_HEADER ? width : width - WIDTH_HEADER)
-  );
+  const width = document.documentElement.clientWidth
+  const height = document.documentElement.clientHeight
+  const defaultWidth = Math.floor(Math.random() * (width < fixSize.WIDTH_HEADER ? width : width - fixSize.WIDTH_HEADER))
   const defaultHeight = Math.floor(
-    Math.random() * (height < WIDTH_CALENDAR ? height : height - WIDTH_CALENDAR)
-  );
+    Math.random() * (height < fixSize.WIDTH_CALENDAR ? height : height - fixSize.WIDTH_CALENDAR),
+  )
 
-  return { x: defaultWidth, y: defaultHeight };
+  return { x: defaultWidth, y: defaultHeight }
 }
 
 function createNewTask(titleOfNewTask) {
@@ -75,6 +67,6 @@ function createNewTask(titleOfNewTask) {
     title: titleOfNewTask.trim(),
     isCompleted: false,
     defaultPos: getRandomDefaultTaskPosition(),
-    color: randomColor({ luminosity: "light" }),
-  };
+    color: randomColor({ luminosity: 'light' }),
+  }
 }

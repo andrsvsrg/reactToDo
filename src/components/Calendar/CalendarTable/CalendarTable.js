@@ -1,15 +1,9 @@
-import "./calendarTable.css";
+import './calendarTable.css'
 
-import React from "react";
-import moment from "moment";
+import React from 'react'
+import moment from 'moment'
 
-const CalendarTable = React.memo(function CalendarTable({
-  currentWindowCalendar,
-  selectedDay,
-  selectMonthValue,
-  setSelectedDay,
-  todo,
-}) {
+function CalendarTable({ currentWindowCalendar, selectedDay, selectMonthValue, setSelectedDay, todo }) {
   return (
     <>
       <div className="calendar-table">
@@ -19,7 +13,7 @@ const CalendarTable = React.memo(function CalendarTable({
               <div className="dayOfWeek-item" key={index}>
                 {dayOfWeek}
               </div>
-            );
+            )
           })}
         </div>
         <div className="calendar-table-dates">
@@ -27,60 +21,45 @@ const CalendarTable = React.memo(function CalendarTable({
             return (
               <div
                 onClick={() => {
-                  setSelectedDay(dateItem);
+                  setSelectedDay(dateItem)
                 }}
-                className={
-                  "dataItem " + addClassForAllDays(dateItem, selectedDay)
-                }
-                key={dateItem.format("DDMMYYYY")}
+                className={'dataItem ' + addClassForAllDays(dateItem, selectedDay)}
+                key={dateItem.format('DDMMYYYY')}
               >
-                <div
-                  className={addClassForCurrentMonth(
-                    dateItem,
-                    selectMonthValue
-                  )}
-                >
-                  {dateItem.format("D")}
-                </div>
-                <div
-                  className={
-                    todo[dateItem.format("DDMMYYYY")]?.length
-                      ? "haveTaskForThisDay"
-                      : ""
-                  }
-                ></div>
+                <div className={addClassForCurrentMonth(dateItem, selectMonthValue)}>{dateItem.format('D')}</div>
+                <div className={todo[dateItem.format('DDMMYYYY')]?.length ? 'haveTaskForThisDay' : ''}></div>
               </div>
-            );
+            )
           })}
         </div>
       </div>
     </>
-  );
-});
+  )
+}
 
-export default CalendarTable;
+export default React.memo(CalendarTable)
 
-const weekDayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const weekDayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 function addClassForAllDays(item, selectedDay) {
-  let classes;
+  let classes
   if (item.day() === 6 || item.day() === 0) {
-    classes = "weekend";
+    classes = 'weekend'
   } else {
-    classes = "";
+    classes = ''
   }
-  if (item.isSame(selectedDay, "day")) {
-    classes = "selectedDay";
+  if (item.isSame(selectedDay, 'day')) {
+    classes = 'selectedDay'
   }
 
-  return classes;
+  return classes
 }
 
 function addClassForCurrentMonth(dateItem, selectMonthValue) {
-  let classesDate = dateItem.isSame(moment(), "day") ? "today" : "";
+  let classesDate = dateItem.isSame(moment(), 'day') ? 'today' : ''
   if (!(dateItem.month() === selectMonthValue)) {
-    classesDate += " notThisMonthColor";
+    classesDate += ' notThisMonthColor'
   }
 
-  return classesDate;
+  return classesDate
 }
