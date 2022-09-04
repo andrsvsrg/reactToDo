@@ -10,8 +10,8 @@ import ToDoList from './components/ToDoList/ToDoList'
 
 function App() {
   const [todo, setToDo] = useState(() => JSON.parse(localStorage.getItem('items')) || {})
-  const [selectedDay, setSelectedDay] = useState(() => moment())
-  const selectedDayTasksKey = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay])
+  const [selectedDay, setSelectedDay] = useState(() => moment().format('DDMMYYYY'))
+  // const selectedDayTasksKey = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay])
 
   useEffect(() => {
     localStorage.setItem('items', JSON.stringify(todo))
@@ -19,40 +19,40 @@ function App() {
 
   const addTask = useCallback(
     (newTask) => {
-      const selectedDayTasks = todo[selectedDayTasksKey]
+      const selectedDayTasks = todo[selectedDay]
       const newDayTask = selectedDayTasks ? [...selectedDayTasks, newTask] : [newTask]
-      setToDo({ ...todo, [selectedDayTasksKey]: newDayTask })
+      setToDo({ ...todo, [selectedDay]: newDayTask })
     },
-    [todo, selectedDayTasksKey],
+    [todo, selectedDay],
   )
 
   const deleteTaskFromSelectedDay = useCallback(
     (task) => {
-      const newSelectDayToDo = todo[selectedDayTasksKey].filter(({ id }) => {
+      const newSelectDayToDo = todo[selectedDay].filter(({ id }) => {
         return id !== task.id
       })
-      setToDo({ ...todo, [selectedDayTasksKey]: newSelectDayToDo })
+      setToDo({ ...todo, [selectedDay]: newSelectDayToDo })
     },
-    [todo, selectedDayTasksKey],
+    [todo, selectedDay],
   )
 
   const updateTask = useCallback(
     (taskId, changes) => {
-      const newSelectedDayToDo = todo[selectedDayTasksKey].map((task) => {
+      const newSelectedDayToDo = todo[selectedDay].map((task) => {
         if (task.id !== taskId) {
           return task
         }
         return { ...task, ...changes }
       })
 
-      setToDo({ ...todo, [selectedDayTasksKey]: newSelectedDayToDo })
+      setToDo({ ...todo, [selectedDay]: newSelectedDayToDo })
     },
-    [todo, selectedDayTasksKey],
+    [todo, selectedDay],
   )
 
   const deleteSelectedDayAllTasks = useCallback(() => {
-    setToDo({ ...todo, [selectedDayTasksKey]: [] })
-  }, [todo, selectedDayTasksKey])
+    setToDo({ ...todo, [selectedDay]: [] })
+  }, [todo, selectedDay])
 
   const deleteAllTasks = useCallback(() => {
     setToDo({})
@@ -67,7 +67,7 @@ function App() {
         selectedDay={selectedDay}
         todo={todo}
         deleteTask={deleteTaskFromSelectedDay}
-        selectedDayTasksKey={selectedDayTasksKey}
+        // selectedDayTasksKey={selectedDayTasksKey}
       />
       <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} todo={todo} />
     </div>

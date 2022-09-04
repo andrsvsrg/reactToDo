@@ -7,11 +7,11 @@ import { v4 as uuid } from 'uuid'
 import { Button } from '../UI/my-button/index'
 import { Input } from '../UI/my-input/index'
 
-import { fixSize, keyCode } from '../../constants'
+import { fixSize, keyCode } from '../utils/constants'
 
 const AddToDo = ({ addTask, selectedDay }) => {
   const [inputValue, setInputValue] = useState('')
-  const selectedDayTitle = useMemo(() => selectedDay.format('DD.MM.YYYY'),[selectedDay])
+  // const selectedDayTitle = useMemo(() => selectedDay.format('DD.MM.YYYY'), [selectedDay])
 
   function onAddTask(e) {
     const code = e.charCode
@@ -25,6 +25,11 @@ const AddToDo = ({ addTask, selectedDay }) => {
     addTask(newTask)
     setInputValue('')
   }
+
+  const selectedDateTitle = useMemo(
+    () => `${selectedDay.slice(0, 2)}.${selectedDay.slice(2, 4)}.${selectedDay.slice(4)}`,
+    [selectedDay],
+  )
 
   const isDisabledButton = !inputValue.trim()
 
@@ -43,7 +48,7 @@ const AddToDo = ({ addTask, selectedDay }) => {
           Add a task
         </Button>
       </div>
-      <span className="add-todo-selected-date">{selectedDayTitle}</span>
+      <span className="add-todo-selected-date">{selectedDateTitle}</span>
     </div>
   )
 }

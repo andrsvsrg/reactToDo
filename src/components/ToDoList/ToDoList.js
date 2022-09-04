@@ -4,11 +4,11 @@ import React from 'react'
 
 import ToDoItem from './ToDoItem/ToDoItem'
 
-function ToDoList({ todo, selectedDay, deleteTask, completedTask, changeTaskTitle, selectedDayTasksKey, updateTask }) {
+function ToDoList({ todo, selectedDay, deleteTask, completedTask, changeTaskTitle, updateTask }) {
   return (
     <div className="draggable-fild">
-      {todo[selectedDayTasksKey]?.length ? (
-        todo[selectedDayTasksKey].map((item, index) => (
+      {todo[selectedDay]?.length ? (
+        todo[selectedDay].map((item, index) => (
           <ToDoItem
             updateTask={updateTask}
             key={item.id}

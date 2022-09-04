@@ -1,9 +1,13 @@
 import './calendarTable.css'
 
 import React from 'react'
-import moment from 'moment'
+import { isSelectedDay } from '../../utils/data'
 
-function CalendarTable({ currentWindowCalendar, selectedDay, selectMonthValue, setSelectedDay, todo }) {
+function CalendarTable({ currentWindowCalendar, selectedDay, setSelectedDay, todo }) {
+  function changeSelectedDay(currDay) {
+    setSelectedDay(currDay.id)
+  }
+
   return (
     <>
       <div className="calendar-table">
@@ -17,17 +21,17 @@ function CalendarTable({ currentWindowCalendar, selectedDay, selectMonthValue, s
           })}
         </div>
         <div className="calendar-table-dates">
-          {currentWindowCalendar.map((dateItem) => {
+          {currentWindowCalendar.map((currDay) => {
             return (
               <div
                 onClick={() => {
-                  setSelectedDay(dateItem)
+                  changeSelectedDay(currDay)
                 }}
-                className={'dataItem ' + addClassForAllDays(dateItem, selectedDay)}
-                key={dateItem.format('DDMMYYYY')}
+                className={'dataItem ' + isWeekendClass(currDay) + IsSelectedDayClass(currDay, selectedDay)}
+                key={currDay.id}
               >
-                <div className={addClassForCurrentMonth(dateItem, selectMonthValue)}>{dateItem.format('D')}</div>
-                <div className={todo[dateItem.format('DDMMYYYY')]?.length ? 'haveTaskForThisDay' : ''}></div>
+                <div className={isTodayIsThisMonthClasses(currDay)}>{currDay.date.day}</div>
+                <div className={hasTask(currDay, todo)}></div>
               </div>
             )
           })}
@@ -41,25 +45,20 @@ export default React.memo(CalendarTable)
 
 const weekDayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-function addClassForAllDays(item, selectedDay) {
-  let classes
-  if (item.day() === 6 || item.day() === 0) {
-    classes = 'weekend'
-  } else {
-    classes = ''
-  }
-  if (item.isSame(selectedDay, 'day')) {
-    classes = 'selectedDay'
-  }
+function hasTask(currDay, todo) {
+  return todo[currDay.id]?.length ? 'haveTaskForThisDay' : ''
+}
 
+function isWeekendClass(currDay) {
+  return currDay.isWeekend ? 'weekend ' : ''
+}
+
+function isTodayIsThisMonthClasses(currDay) {
+  let classes = currDay.isToday ? 'today ' : ''
+  classes += currDay.isCurrentMonth ? '' : 'notThisMonthColor'
   return classes
 }
 
-function addClassForCurrentMonth(dateItem, selectMonthValue) {
-  let classesDate = dateItem.isSame(moment(), 'day') ? 'today' : ''
-  if (!(dateItem.month() === selectMonthValue)) {
-    classesDate += ' notThisMonthColor'
-  }
-
-  return classesDate
+function IsSelectedDayClass(currDay, selectedDay) {
+  return isSelectedDay(currDay, selectedDay) ? 'selectedDay' : ''
 }

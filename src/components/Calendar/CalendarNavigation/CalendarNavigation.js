@@ -1,10 +1,10 @@
 import './calendarNavigation.css'
 
 import React from 'react'
-import moment from 'moment'
 
 import { Button } from '../../UI/my-button/index'
 import { Select } from '../../UI/my-select/index'
+import { getCurrentMonth, getCurrentYear, getTodayDayId, monthNamesArr, yearsValues } from '../../utils/data'
 
 function CalendarNavigation({
   setSelectMonthValue,
@@ -24,10 +24,10 @@ function CalendarNavigation({
   }
 
   function onTodayClick() {
-    setSelectMonthValue(moment().month())
-    setSelectYearValue(moment().year())
-    setSelectedDay(moment())
-    setCurrentWindowCalendar(createValuesCurrWindow(moment().year(), moment().month()))
+    setSelectMonthValue(() => getCurrentMonth())
+    setSelectYearValue(() => getCurrentYear())
+    setSelectedDay(() => getTodayDayId())
+    setCurrentWindowCalendar(createValuesCurrWindow(getCurrentYear(), getCurrentMonth()))
   }
 
   function onNextMonthClick() {
@@ -58,7 +58,7 @@ function CalendarNavigation({
         value={selectMonthValue}
         onChange={onMonthSelectChange}
         className="calendar-select calendar-select-month"
-        optionsObj={defaultValuesForSelect.monthsNames}
+        optionsObj={monthNamesArr}
       />
 
       <Button className="calendar-button today-button" onClick={onTodayClick}>
@@ -69,7 +69,7 @@ function CalendarNavigation({
         value={selectYearValue}
         onChange={onYearSelectChange}
         className="calendar-select calendar-select-year"
-        optionsObj={defaultValuesForSelect.years}
+        optionsObj={yearsValues}
       />
 
       <Button onClick={onNextMonthClick} className="calendar-button">
@@ -80,34 +80,3 @@ function CalendarNavigation({
 }
 
 export default React.memo(CalendarNavigation)
-
-const defaultValuesForSelect = {
-  years: {
-    2016: 2016,
-    2017: 2017,
-    2018: 2018,
-    2019: 2019,
-    2020: 2020,
-    2021: 2021,
-    2022: 2022,
-    2023: 2023,
-    2024: 2024,
-    2025: 2025,
-    2026: 2026,
-  },
-  monthsNames: {
-    /// moment()._locale._months
-    0: 'January',
-    1: 'February',
-    2: 'March',
-    3: 'April',
-    4: 'May',
-    5: 'June',
-    6: 'July',
-    7: 'August',
-    8: 'September',
-    9: 'October',
-    10: 'November',
-    11: 'December',
-  },
-}

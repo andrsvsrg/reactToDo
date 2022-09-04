@@ -1,7 +1,6 @@
 import './header.css'
 
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
 
 import { Button } from '../UI/my-button/index'
 import deleteDayTasksSVG from '../../icon/deleteDayTasks.svg'
@@ -21,12 +20,15 @@ function Header({ deleteSelectedDayAllTasks, deleteAllTasks }) {
         </Button>
 
         <h1 className="header-title">To Do List</h1>
-        <Button data-tip data-for="deleteAll" onClick={deleteAllTasks} className="header-buttons">
+        <Button
+          data-tip
+          tooltip="Delete ALL tasks"
+          data-for="deleteAll"
+          onClick={deleteAllTasks}
+          className="header-buttons"
+        >
           <img src={deleteAllTasksSVG} alt="delete all tasks" width="25px" height="25px" />
         </Button>
-        <ReactTooltip id="deleteAll" type="error" effect="solid">
-          <span>Delete ALL tasks</span>
-        </ReactTooltip>
       </div>
     </div>
   )
