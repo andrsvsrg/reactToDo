@@ -3,7 +3,7 @@ import './calendar.css'
 import moment from 'moment'
 import React, { useState, useEffect } from 'react'
 
-import { createDayMetods, getCurrentMonth, getCurrentYear } from '../utils/data'
+import * as DateUtils from '../utils/data'
 import CalendarNavigation from './CalendarNavigation/CalendarNavigation'
 import CalendarTable from './CalendarTable/CalendarTable'
 
@@ -12,11 +12,11 @@ function Calendar({ todo, setSelectedDay, selectedDay }) {
     moment.updateLocale('en', { week: { dow: 1 } })
   }, [])
 
-  const [selectMonthValue, setSelectMonthValue] = useState(() => getCurrentMonth())
-  const [selectYearValue, setSelectYearValue] = useState(() => getCurrentYear())
+  const [selectMonthValue, setSelectMonthValue] = useState(() => DateUtils.getCurrentMonth())
+  const [selectYearValue, setSelectYearValue] = useState(() => DateUtils.getCurrentYear())
 
   const [currentWindowCalendar, setCurrentWindowCalendar] = useState(() =>
-    createAllDaysForCurrWindow(getCurrentYear(), getCurrentMonth()),
+    createAllDaysForCurrWindow(DateUtils.getCurrentYear(), DateUtils.getCurrentMonth()),
   )
 
   useEffect(() => {
@@ -49,15 +49,15 @@ export default React.memo(Calendar)
 
 function createOneDay(newDay, selectMonthValue) {
   return {
-    id: createDayMetods.getId(newDay),
+    id: DateUtils.getId(newDay),
     date: {
-      day: createDayMetods.getDayOfMonth(newDay),
-      month: createDayMetods.getMonthOfYear(newDay),
-      year: createDayMetods.getYear(newDay),
+      day: DateUtils.getDayOfMonth(newDay),
+      month: DateUtils.getMonthOfYear(newDay),
+      year: DateUtils.getYear(newDay),
     },
-    isWeekend: createDayMetods.isWeekend(newDay),
-    isCurrentMonth: createDayMetods.isCurrentMonth(newDay, selectMonthValue),
-    isToday: createDayMetods.isToday(newDay),
+    isWeekend: DateUtils.isWeekend(newDay),
+    isCurrentMonth: DateUtils.isCurrentMonth(newDay, selectMonthValue),
+    isToday: DateUtils.isToday(newDay),
   }
 }
 

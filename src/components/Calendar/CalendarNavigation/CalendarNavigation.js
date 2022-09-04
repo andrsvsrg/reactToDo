@@ -33,18 +33,18 @@ function CalendarNavigation({
   function onNextMonthClick() {
     if (selectMonthValue === 11) {
       setSelectMonthValue(0)
-      setSelectYearValue(selectYearValue + 1)
+      setSelectYearValue((prev) => prev + 1)
     } else {
-      setSelectMonthValue(selectMonthValue + 1)
+      setSelectMonthValue((prev) => prev + 1)
     }
   }
 
   function onPreviousMonthClick() {
     if (selectMonthValue === 0) {
       setSelectMonthValue(11)
-      setSelectYearValue(selectYearValue - 1)
+      setSelectYearValue((prev) => prev - 1)
     } else {
-      setSelectMonthValue(selectMonthValue - 1)
+      setSelectMonthValue((prev) => prev - 1)
     }
   }
 

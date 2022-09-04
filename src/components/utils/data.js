@@ -18,28 +18,32 @@ export function getCurrentMonth() {
   return moment().month()
 }
 
-export const createDayMetods = {
-  getMonthOfYear: function getMonthOfYear(momentDay) {
-    return momentDay.month() + 1
-  },
-  getYear: function getYear(momentDay) {
-    return momentDay.year()
-  },
-  isCurrentMonth: function isCurrentMonth(momentDay, selectMonth) {
-    return momentDay.month() === selectMonth
-  },
-  getId: function getId(momentDay) {
-    return momentDay.format('DDMMYYYY')
-  },
-  isToday: function isToday(momentDay) {
-    return momentDay.isSame(moment(), 'day')
-  },
-  isWeekend: function isWeekend(momentDay) {
-    return momentDay.isoWeekday() === 6 || momentDay.isoWeekday() === 7
-  },
-  getDayOfMonth: function getDayOfMonth(momentDay) {
-    return momentDay.date()
-  },
+export const isWeekend = (momentDay) => {
+  return momentDay.isoWeekday() === 6 || momentDay.isoWeekday() === 7
+}
+
+export function getDayOfMonth(momentDay) {
+  return momentDay.date()
+}
+
+export function getMonthOfYear(momentDay) {
+  return momentDay.month() + 1
+}
+
+export function getYear(momentDay) {
+  return momentDay.year()
+}
+
+export function isCurrentMonth(momentDay, selectMonth) {
+  return momentDay.month() === selectMonth
+}
+
+export function getId(momentDay) {
+  return momentDay.format('DDMMYYYY')
+}
+
+export function isToday(momentDay) {
+  return momentDay.isSame(moment(), 'day')
 }
 
 export const yearsValues = {
@@ -56,30 +60,26 @@ export const yearsValues = {
   2026: 2026,
 }
 
-// export const isWeekend = (momentDay) => {
-//   return momentDay.isoWeekday() === 6 || momentDay.isoWeekday() === 7
-// }
-//
-// export function getDayOfMonth(momentDay) {
-//   return momentDay.date()
-// }
-//
-// export function getMonthOfYear(momentDay) {
-//   return momentDay.month() + 1
-// }
-//
-// export function getYear(momentDay) {
-//   return momentDay.year()
-// }
-//
-// export function isCurrentMonth(momentDay, selectMonth) {
-//   return momentDay.month() === selectMonth
-// }
-//
-// export function getId(momentDay) {
-//   return momentDay.format('DDMMYYYY')
-// }
-//
-// export function isToday(momentDay) {
-//   return momentDay.isSame(moment(), 'day')
+// export const createDayMetods = {
+//   getMonthOfYear: function getMonthOfYear(momentDay) {
+//     return momentDay.month() + 1
+//   },
+//   getYear: function getYear(momentDay) {
+//     return momentDay.year()
+//   },
+//   isCurrentMonth: function isCurrentMonth(momentDay, selectMonth) {
+//     return momentDay.month() === selectMonth
+//   },
+//   getId: function getId(momentDay) {
+//     return momentDay.format('DDMMYYYY')
+//   },
+//   isToday: function isToday(momentDay) {
+//     return momentDay.isSame(moment(), 'day')
+//   },
+//   isWeekend: function isWeekend(momentDay) {
+//     return momentDay.isoWeekday() === 6 || momentDay.isoWeekday() === 7
+//   },
+//   getDayOfMonth: function getDayOfMonth(momentDay) {
+//     return momentDay.date()
+//   },
 // }

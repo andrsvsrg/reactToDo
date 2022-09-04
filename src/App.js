@@ -1,17 +1,16 @@
 import './App.css'
 
-import moment from 'moment'
-import React, { useEffect, useState, useMemo, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 import Calendar from './components/Calendar/Calendar'
 import AddToDo from './components/AddToDo/AddToDo'
 import Header from './components/Header/Header'
 import ToDoList from './components/ToDoList/ToDoList'
+import { getTodayDayId } from './components/utils/data'
 
 function App() {
   const [todo, setToDo] = useState(() => JSON.parse(localStorage.getItem('items')) || {})
-  const [selectedDay, setSelectedDay] = useState(() => moment().format('DDMMYYYY'))
-  // const selectedDayTasksKey = useMemo(() => selectedDay.format('DDMMYYYY'), [selectedDay])
+  const [selectedDay, setSelectedDay] = useState(() => getTodayDayId())
 
   useEffect(() => {
     localStorage.setItem('items', JSON.stringify(todo))
@@ -62,13 +61,7 @@ function App() {
     <div className="app">
       <Header deleteSelectedDayAllTasks={deleteSelectedDayAllTasks} deleteAllTasks={deleteAllTasks} />
       <AddToDo selectedDay={selectedDay} addTask={addTask} />
-      <ToDoList
-        updateTask={updateTask}
-        selectedDay={selectedDay}
-        todo={todo}
-        deleteTask={deleteTaskFromSelectedDay}
-        // selectedDayTasksKey={selectedDayTasksKey}
-      />
+      <ToDoList updateTask={updateTask} selectedDay={selectedDay} todo={todo} deleteTask={deleteTaskFromSelectedDay} />
       <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay} todo={todo} />
     </div>
   )
