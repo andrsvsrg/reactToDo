@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/reactToDo/static/css/main.030944fa.css",
+    "main.js": "/reactToDo/static/js/main.d541fd3e.js",
+    "static/media/deleteAllTasks.svg": "/reactToDo/static/media/deleteAllTasks.b59112a909fbedcdd694623e6c0364f2.svg",
+    "static/media/save.svg": "/reactToDo/static/media/save.e4150171064754805bcd1355c79efe12.svg",
+    "static/media/cross.svg": "/reactToDo/static/media/cross.5695377669b89e0579583bf3bbfde8e5.svg",
+    "static/media/edit.svg": "/reactToDo/static/media/edit.f4279e5bc6c692be08bea65ecdcf1212.svg",
+    "index.html": "/reactToDo/index.html",
+    "static/media/done.svg": "/reactToDo/static/media/done.3e4526e5380f4c27cd19b9ae00aca05e.svg",
+    "static/media/deleteDayTasks.svg": "/reactToDo/static/media/deleteDayTasks.385c64ed96bfe49b76fe522d8d8e45cf.svg",
+    "main.030944fa.css.map": "/reactToDo/static/css/main.030944fa.css.map",
+    "main.d541fd3e.js.map": "/reactToDo/static/js/main.d541fd3e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.030944fa.css",
+    "static/js/main.d541fd3e.js"
+  ]
+}
