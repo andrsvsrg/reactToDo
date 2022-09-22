@@ -1,5 +1,5 @@
 Разработка улучшение ведется в ветке forComment,
-билд проекта: https://andrsvsrg.github.io/
+билд проекта: [https://andrsvsrg.github.io/](https://andrsvsrg.github.io/reactToDo/)
 
 
 
