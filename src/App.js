@@ -1,44 +1,30 @@
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import './App.css'
+
+import React, { useEffect } from 'react'
 
 import Calendar from './components/Calendar/Calendar'
 import AddToDo from './components/AddToDo/AddToDo'
 import Header from './components/Header/Header'
-import ListItem from './components/ListItem/ListItem'
+import ToDoList from './components/ToDoList/ToDoList'
 
-import './App.css'
+import { useSelector } from 'react-redux'
+import { getTodo } from './redux/selectors/todo-selectors'
 
 function App() {
-
-  const [todo,setToDo] = useState(
-    JSON.parse(localStorage.getItem('items')) || {}
-
-  )
+  const todo = useSelector(getTodo)
 
   useEffect(() => {
-    localStorage.setItem('items',JSON.stringify(todo))
+    localStorage.setItem('items', JSON.stringify(todo))
   }, [todo])
-
-  const [selectedDay, setSelectedDay] = useState(moment())
-
-
-
-
 
   return (
     <div className="app">
       <Header />
-      <AddToDo selectedDay={selectedDay}
-               todo={todo}
-               setToDo={setToDo}/>
-      <ListItem selectedDay={selectedDay}
-                todo={todo}
-                setToDo={setToDo}/>
-      <Calendar selectedDay={selectedDay}
-                setSelectedDay={setSelectedDay}
-                todo={todo}/>
+      <AddToDo />
+      <ToDoList />
+      <Calendar />
     </div>
-  );
+  )
 }
 
-export default App;
+export default React.memo(App)

@@ -1,0 +1,26 @@
+.calendar-navigation {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+
+.calendar-button {
+  font-size: 20px;
+  border: none;
+}
+
+.calendar-select {
+  font-size: 20px;
+  width: 140px;
+  padding-left: 12px;
+}
+
+.today-button {
+  border-bottom: 1px solid gray;
+  border-radius: 10px;
+}
+
+.calendar-select:focus,
+.calendar-button:focus {
+  outline: none;
+}

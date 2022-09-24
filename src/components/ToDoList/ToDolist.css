@@ -1,0 +1,11 @@
+.draggable-element {
+  width: 300px;
+  min-height: 60px;
+  position: absolute;
+}
+
+.header-taskNotFound {
+  text-align: center;
+}
+
+

@@ -1,22 +1,28 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
+
 .app {
   display: flex;
-  flex-direction:column;
-  font-family: 'Montserrat', sans-serif;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   height: 100vh;
   margin: 0;
-  background-color: #20252B;
+  background-color: #20252b;
   color: white;
 }
+
 .header .addtodo_div {
   flex-grow: 0;
 }
-.draggable_fild {
+
+.draggable-fild {
   flex-grow: 10;
 }
+
 .calendar {
   flex-grow: 0;
 }

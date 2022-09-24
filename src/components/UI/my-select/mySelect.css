@@ -1,0 +1,10 @@
+.mySelect-default-style {
+  text-align: start;
+  color: white;
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+}
+.mySelect-default-style option {
+  background-color: #2e2f36;
+}
