@@ -2,10 +2,16 @@ import './calendarTable.css'
 
 import React from 'react'
 import { isSelectedDay } from '../../utils/data'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeSelectedDay } from '../../../redux/actions/todos-actions'
 
-function CalendarTable({ currentWindowCalendar, selectedDay, setSelectedDay, todo }) {
-  function changeSelectedDay(currDay) {
-    setSelectedDay(currDay.id)
+function CalendarTable({ currentWindowCalendar }) {
+  const dispatch = useDispatch()
+  const selectedDay = useSelector((state) => state.todosReducer.selectedDay)
+  const todo = useSelector((state) => state.todosReducer.todo)
+
+  function onChangeSelectedDay(currDay) {
+    dispatch(changeSelectedDay(currDay.id))
   }
 
   return (
@@ -25,7 +31,7 @@ function CalendarTable({ currentWindowCalendar, selectedDay, setSelectedDay, tod
             return (
               <div
                 onClick={() => {
-                  changeSelectedDay(currDay)
+                  onChangeSelectedDay(currDay)
                 }}
                 className={'dataItem ' + isWeekendClass(currDay) + IsSelectedDayClass(currDay, selectedDay)}
                 key={currDay.id}

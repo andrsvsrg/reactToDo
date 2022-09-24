@@ -7,11 +7,16 @@ import { v4 as uuid } from 'uuid'
 import { Button } from '../UI/my-button/index'
 import { Input } from '../UI/my-input/index'
 
-import { fixSize, keyCode } from '../utils/constants'
+import { fixSize, keyCode } from '../../constants/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { addTask } from '../../redux/actions/todos-actions'
+import { getSelectedDay } from '../../redux/selectors/todo-selectors'
 
-const AddToDo = ({ addTask, selectedDay }) => {
+const AddToDo = () => {
   const [inputValue, setInputValue] = useState('')
-  // const selectedDayTitle = useMemo(() => selectedDay.format('DD.MM.YYYY'), [selectedDay])
+
+  const dispatch = useDispatch()
+  const selectedDay = useSelector(getSelectedDay)
 
   function onAddTask(e) {
     const code = e.charCode
@@ -22,7 +27,7 @@ const AddToDo = ({ addTask, selectedDay }) => {
 
   function addNewTask() {
     const newTask = createNewTask(inputValue)
-    addTask(newTask)
+    dispatch(addTask(newTask))
     setInputValue('')
   }
 

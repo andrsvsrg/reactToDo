@@ -5,6 +5,9 @@ export const monthNamesArr = moment()._locale._months
 export function isSelectedDay(dayObj, selectedDay) {
   return dayObj.id === selectedDay
 }
+export function startWeekFromMonday() {
+  moment.updateLocale('en', { week: { dow: 1 } })
+}
 
 export function getTodayDayId() {
   return moment().format('DDMMYYYY')
@@ -44,6 +47,29 @@ export function getId(momentDay) {
 
 export function isToday(momentDay) {
   return momentDay.isSame(moment(), 'day')
+}
+
+export function createOneDay(newDay, selectMonthValue) {
+  return {
+    id: getId(newDay),
+    date: {
+      day: getDayOfMonth(newDay),
+      month: getMonthOfYear(newDay),
+      year: getYear(newDay),
+    },
+    isWeekend: isWeekend(newDay),
+    isCurrentMonth: isCurrentMonth(newDay, selectMonthValue),
+    isToday: isToday(newDay),
+  }
+}
+
+export function createAllDaysForCurrWindow(year, month, day = 1) {
+  const selectedDay = moment().set({ year: year, month: month, date: day })
+  const startDay = selectedDay.clone().startOf('month').startOf('week')
+  const currDay = startDay.subtract(1, 'day').clone()
+  const resultArrAllDays = [...Array(42)].map(() => createOneDay(currDay.add(1, 'day').clone(), month))
+
+  return resultArrAllDays
 }
 
 export const yearsValues = {

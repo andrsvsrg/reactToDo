@@ -3,23 +3,16 @@ import './ToDolist.css'
 import React from 'react'
 
 import ToDoItem from './ToDoItem/ToDoItem'
+import { useSelector } from 'react-redux'
+import { getSelectedDayTasks } from '../../redux/selectors/todo-selectors'
 
-function ToDoList({ todo, selectedDay, deleteTask, completedTask, changeTaskTitle, updateTask }) {
+function ToDoList() {
+  const selectedDayTasks = useSelector(getSelectedDayTasks)
+
   return (
     <div className="draggable-fild">
-      {todo[selectedDay]?.length ? (
-        todo[selectedDay].map((item, index) => (
-          <ToDoItem
-            updateTask={updateTask}
-            key={item.id}
-            changeTaskTitle={changeTaskTitle}
-            completedTask={completedTask}
-            deleteTask={deleteTask}
-            selectedDay={selectedDay}
-            item={item}
-            index={index}
-          />
-        ))
+      {selectedDayTasks?.length ? (
+        selectedDayTasks.map((item, index) => <ToDoItem key={item.id} item={item} index={index} />)
       ) : (
         <div className="header-taskNotFound">Tasks not found</div>
       )}

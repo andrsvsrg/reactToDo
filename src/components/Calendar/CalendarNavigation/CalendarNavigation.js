@@ -4,47 +4,53 @@ import React from 'react'
 
 import { Button } from '../../UI/my-button/index'
 import { Select } from '../../UI/my-select/index'
-import { getCurrentMonth, getCurrentYear, getTodayDayId, monthNamesArr, yearsValues } from '../../utils/data'
+import {
+  getCurrentMonth,
+  getCurrentYear,
+  getTodayDayId,
+  monthNamesArr,
+  yearsValues,
+  createAllDaysForCurrWindow,
+} from '../../utils/data'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeSelectedDay } from '../../../redux/actions/todos-actions'
+import { changeSelectMonth, changeSelectYear, changeWindowCalendar } from '../../../redux/actions/calendar-actions'
 
-function CalendarNavigation({
-  setSelectMonthValue,
-  setSelectYearValue,
-  setSelectedDay,
-  setCurrentWindowCalendar,
-  createValuesCurrWindow,
-  selectMonthValue,
-  selectYearValue,
-}) {
+function CalendarNavigation() {
+  const dispatch = useDispatch()
+  const selectMonthValue = useSelector((state) => state.calendarReducer.selectMonthValue)
+  const selectYearValue = useSelector((state) => state.calendarReducer.selectYearValue)
+
   function onMonthSelectChange(e) {
-    setSelectMonthValue(Number(e.target.value))
+    dispatch(changeSelectMonth(Number(e.target.value)))
   }
 
   function onYearSelectChange(e) {
-    setSelectYearValue(Number(e.target.value))
+    dispatch(changeSelectYear(Number(e.target.value)))
   }
 
   function onTodayClick() {
-    setSelectMonthValue(() => getCurrentMonth())
-    setSelectYearValue(() => getCurrentYear())
-    setSelectedDay(() => getTodayDayId())
-    setCurrentWindowCalendar(createValuesCurrWindow(getCurrentYear(), getCurrentMonth()))
+    dispatch(changeSelectYear(getCurrentYear()))
+    dispatch(changeSelectMonth(getCurrentMonth()))
+    dispatch(changeSelectedDay(getTodayDayId()))
+    dispatch(changeWindowCalendar(createAllDaysForCurrWindow(getCurrentYear(), getCurrentMonth())))
   }
 
   function onNextMonthClick() {
     if (selectMonthValue === 11) {
-      setSelectMonthValue(0)
-      setSelectYearValue((prev) => prev + 1)
+      dispatch(changeSelectMonth(0))
+      dispatch(changeSelectYear(selectYearValue + 1))
     } else {
-      setSelectMonthValue((prev) => prev + 1)
+      dispatch(changeSelectMonth(selectMonthValue + 1))
     }
   }
 
   function onPreviousMonthClick() {
     if (selectMonthValue === 0) {
-      setSelectMonthValue(11)
-      setSelectYearValue((prev) => prev - 1)
+      dispatch(changeSelectMonth(11))
+      dispatch(changeSelectYear(selectYearValue - 1))
     } else {
-      setSelectMonthValue((prev) => prev - 1)
+      dispatch(changeSelectMonth(selectMonthValue - 1))
     }
   }
 
