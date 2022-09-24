@@ -15,11 +15,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { changeSelectedDay } from '../../../redux/actions/todos-actions'
 import { changeSelectMonth, changeSelectYear, changeWindowCalendar } from '../../../redux/actions/calendar-actions'
+import { mapStateCalendarToProps } from '../../../redux/selectors/calendar-selectors'
 
 function CalendarNavigation() {
   const dispatch = useDispatch()
-  const selectMonthValue = useSelector((state) => state.calendarReducer.selectMonthValue)
-  const selectYearValue = useSelector((state) => state.calendarReducer.selectYearValue)
+  const { selectMonthValue, selectYearValue } = useSelector(mapStateCalendarToProps)
 
   function onMonthSelectChange(e) {
     dispatch(changeSelectMonth(Number(e.target.value)))

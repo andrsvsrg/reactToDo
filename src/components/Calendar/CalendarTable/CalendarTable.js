@@ -4,11 +4,13 @@ import React from 'react'
 import { isSelectedDay } from '../../utils/data'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeSelectedDay } from '../../../redux/actions/todos-actions'
+import { mapStateToDoToProps } from '../../../redux/selectors/todo-selectors'
+import { getWindowCalendar } from '../../../redux/selectors/calendar-selectors'
 
-function CalendarTable({ currentWindowCalendar }) {
+function CalendarTable() {
   const dispatch = useDispatch()
-  const selectedDay = useSelector((state) => state.todosReducer.selectedDay)
-  const todo = useSelector((state) => state.todosReducer.todo)
+  const { todo, selectedDay } = useSelector(mapStateToDoToProps)
+  const currentWindowCalendar = useSelector(getWindowCalendar)
 
   function onChangeSelectedDay(currDay) {
     dispatch(changeSelectedDay(currDay.id))
